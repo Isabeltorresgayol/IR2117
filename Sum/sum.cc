@@ -7,7 +7,11 @@ int main() {
     std::cout << "Enter a number: ";
     std::cin >> number;
 
-    std::cout << "You entered: " << number << std::endl;
+    for (int i = 1; i <= number; i++) {
+        sum += i;
+    }
+
+    std::cout << "Sum = " << sum << std::endl;
 
     return 0;
 }
