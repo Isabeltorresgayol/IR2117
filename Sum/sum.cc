@@ -16,7 +16,7 @@ int main() {
         std::cin >> number;
     } while (number < 1);
 
-    std::cout << "Sum = " << computeSum(number) << std::endl;
+   std::cout << "Sum = " << computeSum(number) << std::endl;
 
     return 0;
 }
