@@ -3,8 +3,10 @@
 
 int main() {
     int n;
-    std::cout << "Enter the number of data points: ";
-    std::cin >> n;
+    do {
+        std::cout << "Enter the number of data points (>=1): ";
+        std::cin >> n;
+    } while (n < 1);
 
     std::vector<double> data(n);
     double sum = 0;
