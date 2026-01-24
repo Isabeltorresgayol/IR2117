@@ -14,7 +14,11 @@ int main() {
     std::cout << "Enter a number: ";
     std::cin >> number;
 
-    std::cout << "Sum = " << computeSum(number) << std::endl;
+    if (number >= 1) {
+        std::cout << "Sum = " << computeSum(number) << std::endl;
+    } else {
+        std::cout << "Number must be at least 1. Program finished." << std::endl;
+    }
 
     return 0;
 }
