@@ -11,14 +11,12 @@ int computeSum(int n) {
 int main() {
     int number;
 
-    std::cout << "Enter a number: ";
-    std::cin >> number;
+    do {
+        std::cout << "Enter a number (>=1): ";
+        std::cin >> number;
+    } while (number < 1);
 
-    if (number >= 1) {
-        std::cout << "Sum = " << computeSum(number) << std::endl;
-    } else {
-        std::cout << "Number must be at least 1. Program finished." << std::endl;
-    }
+    std::cout << "Sum = " << computeSum(number) << std::endl;
 
     return 0;
 }
