@@ -9,7 +9,9 @@ int main() {
 
     double d = b*b - 4*a*c;
 
-    if (d >= 0) {
+    if (d < 0) {
+        cout << "No hay soluciones reales." << endl;
+    } else {
         double x1 = (-b + sqrt(d)) / (2*a);
         double x2 = (-b - sqrt(d)) / (2*a);
         cout << "x1 = " << x1 << endl;
