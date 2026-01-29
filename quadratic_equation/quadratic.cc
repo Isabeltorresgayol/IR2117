@@ -12,14 +12,18 @@ int main() {
     if (d > 0) {
         double x1 = (-b + sqrt(d)) / (2*a);
         double x2 = (-b - sqrt(d)) / (2*a);
-        cout << "Dos soluciones:" << endl;
         cout << "x1 = " << x1 << endl;
         cout << "x2 = " << x2 << endl;
-    } else if (d == 0) {
+    } 
+    else if (d == 0) {
         double x = -b / (2*a);
-        cout << "Una sola solucion: x = " << x << endl;
-    } else {
-        cout << "No hay soluciones reales." << endl;
+        cout << "x = " << x << endl;
+    } 
+    else {
+        double real = -b / (2*a);
+        double imag = sqrt(-d) / (2*a);
+        cout << "x1 = " << real << " + " << imag << "i" << endl;
+        cout << "x2 = " << real << " - " << imag << "i" << endl;
     }
 
     return 0;

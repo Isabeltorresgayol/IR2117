@@ -1,10 +1,18 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 double computeMean(const std::vector<double>& data) {
     double sum = 0;
     for (double x : data) sum += x;
     return sum / data.size();
+}
+
+double computeStdDev(const std::vector<double>& data, double mean) {
+    double sum = 0;
+    for (double x : data)
+        sum += (x - mean) * (x - mean);
+    return std::sqrt(sum / data.size());
 }
 
 int main() {
@@ -21,7 +29,10 @@ int main() {
     }
 
     double mean = computeMean(data);
+    double stddev = computeStdDev(data, mean);
+
     std::cout << "Sample mean = " << mean << std::endl;
+    std::cout << "Standard deviation = " << stddev << std::endl;
 
     double mu0;
     std::cout << "Enter a hypothetical value μ₀: ";
