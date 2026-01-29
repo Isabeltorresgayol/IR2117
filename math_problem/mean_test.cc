@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <algorithm>
 
 double computeMean(const std::vector<double>& data) {
     double sum = 0;
@@ -13,6 +14,15 @@ double computeStdDev(const std::vector<double>& data, double mean) {
     for (double x : data)
         sum += (x - mean) * (x - mean);
     return std::sqrt(sum / data.size());
+}
+
+double computeMedian(std::vector<double> data) {
+    std::sort(data.begin(), data.end());
+    int n = data.size();
+    if (n % 2 == 0)
+        return (data[n/2 - 1] + data[n/2]) / 2;
+    else
+        return data[n/2];
 }
 
 int main() {
@@ -30,17 +40,19 @@ int main() {
 
     double mean = computeMean(data);
     double stddev = computeStdDev(data, mean);
+    double median = computeMedian(data);
 
     std::cout << "Sample mean = " << mean << std::endl;
     std::cout << "Standard deviation = " << stddev << std::endl;
+    std::cout << "Median = " << median << std::endl;
 
     double mu0;
-    std::cout << "Enter a hypothetical value μ₀: ";
+    std::cout << "Enter a hypothetical value mu0: ";
     std::cin >> mu0;
 
-    if (mean > mu0) std::cout << "The sample mean is greater than μ₀" << std::endl;
-    else if (mean < mu0) std::cout << "The sample mean is less than μ₀" << std::endl;
-    else std::cout << "The sample mean is equal to μ₀" << std::endl;
+    if (mean > mu0) std::cout << "The sample mean is greater than mu0" << std::endl;
+    else if (mean < mu0) std::cout << "The sample mean is less than mu0" << std::endl;
+    else std::cout << "The sample mean is equal to mu0" << std::endl;
 
     return 0;
 }
