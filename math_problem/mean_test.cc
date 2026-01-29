@@ -2,6 +2,7 @@
 #include <vector>
 #include <cmath>
 #include <algorithm>
+#include <map>
 
 double computeMean(const std::vector<double>& data) {
     double sum = 0;
@@ -25,6 +26,22 @@ double computeMedian(std::vector<double> data) {
         return data[n/2];
 }
 
+double computeMode(const std::vector<double>& data) {
+    std::map<double, int> freq;
+    for (double x : data) freq[x]++;
+
+    int maxCount = 0;
+    double mode = data[0];
+
+    for (auto p : freq) {
+        if (p.second > maxCount) {
+            maxCount = p.second;
+            mode = p.first;
+        }
+    }
+    return mode;
+}
+
 int main() {
     int n;
     do {
@@ -41,10 +58,12 @@ int main() {
     double mean = computeMean(data);
     double stddev = computeStdDev(data, mean);
     double median = computeMedian(data);
+    double mode = computeMode(data);
 
     std::cout << "Sample mean = " << mean << std::endl;
     std::cout << "Standard deviation = " << stddev << std::endl;
     std::cout << "Median = " << median << std::endl;
+    std::cout << "Mode = " << mode << std::endl;
 
     double mu0;
     std::cout << "Enter a hypothetical value mu0: ";
