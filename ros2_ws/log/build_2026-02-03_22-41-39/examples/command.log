@@ -1,0 +1,2 @@
+Invoking command in '/home/isabel/IR2117/ros2_ws/build/examples': /usr/bin/cmake --build /home/isabel/IR2117/ros2_ws/build/examples -- -j12 -l12
+Invoked command in '/home/isabel/IR2117/ros2_ws/build/examples' returned '0': /usr/bin/cmake --build /home/isabel/IR2117/ros2_ws/build/examples -- -j12 -l12

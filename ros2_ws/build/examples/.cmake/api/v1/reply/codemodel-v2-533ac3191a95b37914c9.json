@@ -1,0 +1,88 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-f706efa22ba1f6a00490.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "examples",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "examples_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-examples_uninstall-c65159bddb97db5b614f.json",
+					"name" : "examples_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "publisher::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-publisher-3853977ff76b24fe8802.json",
+					"name" : "publisher",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "subscriber::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-subscriber-9b93e0bf2713f0b11a2d.json",
+					"name" : "subscriber",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-fdb87d9e7d528217e8ab.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/isabel/IR2117/ros2_ws/build/examples",
+		"source" : "/home/isabel/IR2117/ros2_ws/src/examples"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

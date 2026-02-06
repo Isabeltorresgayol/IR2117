@@ -1,0 +1,32 @@
+[0.012s] Invoking command in '/home/isabel/IR2117/ros2_ws/build/examples': /usr/bin/cmake /home/isabel/IR2117/ros2_ws/src/examples -DCMAKE_INSTALL_PREFIX=/home/isabel/IR2117/ros2_ws/install/examples
+[0.088s] [33mCMake Warning (dev) in CMakeLists.txt:
+[0.088s]   No project() command is present.  The top-level CMakeLists.txt file must
+[0.089s]   contain a literal, direct call to the project() command.  Add a line of
+[0.089s]   code such as
+[0.089s] 
+[0.089s]     project(ProjectName)
+[0.089s] 
+[0.089s]   near the top of the file, but after cmake_minimum_required().
+[0.089s] 
+[0.089s]   CMake is pretending there is a "project(Project)" command on the first
+[0.089s]   line.
+[0.090s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[0.090s] [0m
+[0.251s] -- The C compiler identification is GNU 11.4.0
+[0.414s] -- The CXX compiler identification is GNU 11.4.0
+[0.430s] -- Detecting C compiler ABI info
+[0.514s] -- Detecting C compiler ABI info - done
+[0.522s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.522s] -- Detecting C compile features
+[0.523s] -- Detecting C compile features - done
+[0.527s] -- Detecting CXX compiler ABI info
+[0.614s] -- Detecting CXX compiler ABI info - done
+[0.621s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.622s] -- Detecting CXX compile features
+[0.622s] -- Detecting CXX compile features - done
+[0.622s] -- Configuring done
+[0.623s] -- Generating done
+[0.624s] -- Build files have been written to: /home/isabel/IR2117/ros2_ws/build/examples
+[0.628s] Invoked command in '/home/isabel/IR2117/ros2_ws/build/examples' returned '0': /usr/bin/cmake /home/isabel/IR2117/ros2_ws/src/examples -DCMAKE_INSTALL_PREFIX=/home/isabel/IR2117/ros2_ws/install/examples
+[0.630s] Invoking command in '/home/isabel/IR2117/ros2_ws/build/examples': /usr/bin/cmake --build /home/isabel/IR2117/ros2_ws/build/examples -- -j12 -l12
+[0.671s] Invoked command in '/home/isabel/IR2117/ros2_ws/build/examples' returned '0': /usr/bin/cmake --build /home/isabel/IR2117/ros2_ws/build/examples -- -j12 -l12

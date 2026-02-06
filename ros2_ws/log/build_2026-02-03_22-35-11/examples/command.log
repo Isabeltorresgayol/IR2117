@@ -1,0 +1,6 @@
+Invoking command in '/home/isabel/IR2117/ros2_ws/build/examples': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/isabel/IR2117/ros2_ws/src/examples -DCMAKE_INSTALL_PREFIX=/home/isabel/IR2117/ros2_ws/install/examples
+Invoked command in '/home/isabel/IR2117/ros2_ws/build/examples' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/isabel/IR2117/ros2_ws/src/examples -DCMAKE_INSTALL_PREFIX=/home/isabel/IR2117/ros2_ws/install/examples
+Invoking command in '/home/isabel/IR2117/ros2_ws/build/examples': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/isabel/IR2117/ros2_ws/build/examples -- -j12 -l12
+Invoked command in '/home/isabel/IR2117/ros2_ws/build/examples' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/isabel/IR2117/ros2_ws/build/examples -- -j12 -l12
+Invoking command in '/home/isabel/IR2117/ros2_ws/build/examples': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/isabel/IR2117/ros2_ws/build/examples
+Invoked command in '/home/isabel/IR2117/ros2_ws/build/examples' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/isabel/IR2117/ros2_ws/build/examples

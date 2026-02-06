@@ -1,0 +1,15 @@
+/home/isabel/IR2117/ros2_ws/install/sum/share/ament_index/resource_index/package_run_dependencies/sum
+/home/isabel/IR2117/ros2_ws/install/sum/share/ament_index/resource_index/parent_prefix_path/sum
+/home/isabel/IR2117/ros2_ws/install/sum/share/sum/environment/ament_prefix_path.sh
+/home/isabel/IR2117/ros2_ws/install/sum/share/sum/environment/ament_prefix_path.dsv
+/home/isabel/IR2117/ros2_ws/install/sum/share/sum/environment/path.sh
+/home/isabel/IR2117/ros2_ws/install/sum/share/sum/environment/path.dsv
+/home/isabel/IR2117/ros2_ws/install/sum/share/sum/local_setup.bash
+/home/isabel/IR2117/ros2_ws/install/sum/share/sum/local_setup.sh
+/home/isabel/IR2117/ros2_ws/install/sum/share/sum/local_setup.zsh
+/home/isabel/IR2117/ros2_ws/install/sum/share/sum/local_setup.dsv
+/home/isabel/IR2117/ros2_ws/install/sum/share/sum/package.dsv
+/home/isabel/IR2117/ros2_ws/install/sum/share/ament_index/resource_index/packages/sum
+/home/isabel/IR2117/ros2_ws/install/sum/share/sum/cmake/sumConfig.cmake
+/home/isabel/IR2117/ros2_ws/install/sum/share/sum/cmake/sumConfig-version.cmake
+/home/isabel/IR2117/ros2_ws/install/sum/share/sum/package.xml

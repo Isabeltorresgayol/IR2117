@@ -1,0 +1,9 @@
+/home/isabel/IR2117/ros2_ws/build/sum/CMakeFiles/uninstall.dir
+/home/isabel/IR2117/ros2_ws/build/sum/CMakeFiles/sum_uninstall.dir
+/home/isabel/IR2117/ros2_ws/build/sum/CMakeFiles/test.dir
+/home/isabel/IR2117/ros2_ws/build/sum/CMakeFiles/edit_cache.dir
+/home/isabel/IR2117/ros2_ws/build/sum/CMakeFiles/rebuild_cache.dir
+/home/isabel/IR2117/ros2_ws/build/sum/CMakeFiles/list_install_components.dir
+/home/isabel/IR2117/ros2_ws/build/sum/CMakeFiles/install.dir
+/home/isabel/IR2117/ros2_ws/build/sum/CMakeFiles/install/local.dir
+/home/isabel/IR2117/ros2_ws/build/sum/CMakeFiles/install/strip.dir

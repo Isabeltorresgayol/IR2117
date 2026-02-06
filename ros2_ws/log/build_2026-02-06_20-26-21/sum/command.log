@@ -1,0 +1,6 @@
+Invoking command in '/home/isabel/IR2117/ros2_ws/build/sum': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/isabel/IR2117/ros2_ws/src/sum -DCMAKE_INSTALL_PREFIX=/home/isabel/IR2117/ros2_ws/install/sum
+Invoked command in '/home/isabel/IR2117/ros2_ws/build/sum' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/isabel/IR2117/ros2_ws/src/sum -DCMAKE_INSTALL_PREFIX=/home/isabel/IR2117/ros2_ws/install/sum
+Invoking command in '/home/isabel/IR2117/ros2_ws/build/sum': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/isabel/IR2117/ros2_ws/build/sum -- -j12 -l12
+Invoked command in '/home/isabel/IR2117/ros2_ws/build/sum' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/isabel/IR2117/ros2_ws/build/sum -- -j12 -l12
+Invoking command in '/home/isabel/IR2117/ros2_ws/build/sum': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/isabel/IR2117/ros2_ws/build/sum
+Invoked command in '/home/isabel/IR2117/ros2_ws/build/sum' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/isabel/IR2117/ros2_ws/build/sum

@@ -1,0 +1,17 @@
+/home/isabel/IR2117/ros2_ws/install/examples/lib/examples/publisher
+/home/isabel/IR2117/ros2_ws/install/examples/lib/examples/subscriber
+/home/isabel/IR2117/ros2_ws/install/examples/share/ament_index/resource_index/package_run_dependencies/examples
+/home/isabel/IR2117/ros2_ws/install/examples/share/ament_index/resource_index/parent_prefix_path/examples
+/home/isabel/IR2117/ros2_ws/install/examples/share/examples/environment/ament_prefix_path.sh
+/home/isabel/IR2117/ros2_ws/install/examples/share/examples/environment/ament_prefix_path.dsv
+/home/isabel/IR2117/ros2_ws/install/examples/share/examples/environment/path.sh
+/home/isabel/IR2117/ros2_ws/install/examples/share/examples/environment/path.dsv
+/home/isabel/IR2117/ros2_ws/install/examples/share/examples/local_setup.bash
+/home/isabel/IR2117/ros2_ws/install/examples/share/examples/local_setup.sh
+/home/isabel/IR2117/ros2_ws/install/examples/share/examples/local_setup.zsh
+/home/isabel/IR2117/ros2_ws/install/examples/share/examples/local_setup.dsv
+/home/isabel/IR2117/ros2_ws/install/examples/share/examples/package.dsv
+/home/isabel/IR2117/ros2_ws/install/examples/share/ament_index/resource_index/packages/examples
+/home/isabel/IR2117/ros2_ws/install/examples/share/examples/cmake/examplesConfig.cmake
+/home/isabel/IR2117/ros2_ws/install/examples/share/examples/cmake/examplesConfig-version.cmake
+/home/isabel/IR2117/ros2_ws/install/examples/share/examples/package.xml
