@@ -1,30 +1,37 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/int32.hpp"
-#include <iostream>
+#include "std_msgs/msg/float64.hpp"
 
-int sum;
-std::shared_ptr<rclcpp::Publisher<std_msgs::msg::Int32>> publisher;
-
+double sum;
+int count;
+std::shared_ptr<rclcpp::Publisher<std_msgs::msg::Float64>> publisher;
 
 void topic_callback(const std_msgs::msg::Int32::SharedPtr msg)
 {
-	sum += msg->data;
-	std_msgs::msg::Int32 out_msg;
-	out_msg.data = sum;
-	publisher->publish(out_msg);
+    sum += msg->data;
+    count++;
+
+    std_msgs::msg::Float64 out_msg;
+    out_msg.data = sum / count;
+    publisher->publish(out_msg);
 }
 
 int main(int argc, char * argv[])
 {
-	sum = 0;
-	rclcpp::init(argc, argv);
-	auto node = rclcpp::Node::make_shared("mean");
-	auto subscription =
-        	node->create_subscription<std_msgs::msg::Int32>("number", 10, topic_callback);
+    sum = 0.0;
+    count = 0;
 
-	publisher = node->create_publisher<std_msgs::msg::Int32>("mean", 10);
-	rclcpp::spin(node);
-	rclcpp::shutdown();
-	return 0;
+    rclcpp::init(argc, argv);
+    auto node = rclcpp::Node::make_shared("mean");
+
+    auto subscription =
+        node->create_subscription<std_msgs::msg::Int32>("number", 10, topic_callback);
+
+    publisher = node->create_publisher<std_msgs::msg::Float64>("mean", 10);
+
+    rclcpp::spin(node);
+    rclcpp::shutdown();
+    return 0;
 }
+
 
