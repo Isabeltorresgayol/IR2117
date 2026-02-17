@@ -21,6 +21,12 @@ int main(int argc, char * argv[])
 
     while (rclcpp::ok()) {
 
+        // Velocidad lineal en x (las pongo primero así, a lo mejor la svoy cambiando)
+        message.linear.x = 0.5;
+
+        // Velocidad angular en z (giro, lo pongo como primera pruebaaa)
+        message.angular.z = 0.5;
+
         publisher->publish(message);
 
         rclcpp::spin_some(node);
@@ -30,4 +36,3 @@ int main(int argc, char * argv[])
     rclcpp::shutdown();
     return 0;
 }
-
