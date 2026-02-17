@@ -20,12 +20,15 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
-add_executable(publisher src/publisher.cpp)
-ament_target_dependencies(publisher rclcpp std_msgs)
+# Ejecutable RENOMBRADO
+add_executable(square src/square.cpp)
+ament_target_dependencies(square rclcpp std_msgs)
 
+# Instalación
 install(TARGETS
-  publisher
+  square
   DESTINATION lib/${PROJECT_NAME}
 )
 
 ament_package()
+
