@@ -1,26 +1,26 @@
 #include <chrono>
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
+#include "geometry_msgs/msg/twist.hpp"
 
-using namespace std::chrono_literals;
+using namespace std::chrono_literals; //Preguntar a Fede (duda en la libreta de apuntes)
 
 int main(int argc, char * argv[])
 {
     rclcpp::init(argc, argv);
 
-    // Nombre del nodo cambiado a "square"
+    // Nodo llamado "square"
     auto node = rclcpp::Node::make_shared("square");
 
+    // Publisher en /cmd_vel con mensaje Twist 
     auto publisher =
-        node->create_publisher<std_msgs::msg::String>("topic", 10);
+        node->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
 
-    std_msgs::msg::String message;
-    int publish_count = 0;
+    geometry_msgs::msg::Twist message;
 
     rclcpp::WallRate loop_rate(500ms);
 
     while (rclcpp::ok()) {
-        message.data = "Hello, world! " + std::to_string(publish_count++);
+
         publisher->publish(message);
 
         rclcpp::spin_some(node);
