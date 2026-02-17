@@ -35,6 +35,11 @@ int main(int argc, char * argv[])
         rclcpp::spin_some(node);
         loop_rate.sleep();
     }
+    
+    
+    message.linear.x = 0.0;
+    message.angular.z = 0.0;
+    publisher->publish(message);
 
     rclcpp::shutdown();
     return 0;
