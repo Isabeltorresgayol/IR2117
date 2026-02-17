@@ -16,16 +16,19 @@ int main(int argc, char * argv[])
         node->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
 
     geometry_msgs::msg::Twist message;
+    rclcpp::WallRate loop_rate(10ms);
 
-    rclcpp::WallRate loop_rate(500ms);
+    int i = 0;
+    int n = 1000;   // numero de iteraciones para 1 metro
 
-    while (rclcpp::ok()) {
+    while (rclcpp::ok() && i < n) {
+        i++;
 
-        // Velocidad lineal en x (las pongo primero así, a lo mejor la svoy cambiando)
-        message.linear.x = 0.5;
+        // Velocidad lineal en x
+        message.linear.x = 0.1;
 
-        // Velocidad angular en z (giro, lo pongo como primera pruebaaa)
-        message.angular.z = 0.5;
+        // Sin giro
+        message.angular.z = 0.0;
 
         publisher->publish(message);
 
@@ -36,3 +39,4 @@ int main(int argc, char * argv[])
     rclcpp::shutdown();
     return 0;
 }
+
