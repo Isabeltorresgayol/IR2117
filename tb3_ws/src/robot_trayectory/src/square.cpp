@@ -2,51 +2,54 @@
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 
-using namespace std::chrono_literals; //Preguntar a Fede (duda en la libreta de apuntes)
+using namespace std::chrono_literals;
 
 int main(int argc, char * argv[])
 {
     rclcpp::init(argc, argv);
 
-    // Nodo llamado "square"
+    
     auto node = rclcpp::Node::make_shared("square");
 
-    // Publisher en /cmd_vel con mensaje Twist 
     auto publisher =
         node->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
 
     geometry_msgs::msg::Twist message;
 
-    
     rclcpp::WallRate loop_rate(10ms);
 
-    int i = 0;
-    int n = 1000;   // iteraciones para 1 metro
-
     
-    while (rclcpp::ok() && (i < n)) {
-        i++;
+    for(int j = 0; j < 4; j++)
+    {
+        int i = 0;
+        int n = 1000;  
 
-        message.linear.x = 0.1;
-        message.angular.z = 0.0;
+        
+        while (rclcpp::ok() && (i < n)) {
+            i++;
 
-        publisher->publish(message);
-        rclcpp::spin_some(node);
-        loop_rate.sleep();
-    }
+            message.linear.x = 0.1;
+            message.angular.z = 0.0;
 
-    i = 0;
-    n = 1000;   // iteraciones para 90 grados
+            publisher->publish(message);
+            rclcpp::spin_some(node);
+            loop_rate.sleep();
+        }
 
-    while (rclcpp::ok() && (i < n)) {
-        i++;
+        
+        i = 0;
+        n = 314;   
 
-        message.linear.x = 0.0;
-        message.angular.z = 0.157;  // aprox 9 grados en rad/s
+        while (rclcpp::ok() && (i < n)) {
+            i++;
 
-        publisher->publish(message);
-        rclcpp::spin_some(node);
-        loop_rate.sleep();
+            message.linear.x = 0.0;
+            message.angular.z = 0.5;
+
+            publisher->publish(message);
+            rclcpp::spin_some(node);
+            loop_rate.sleep();
+        }
     }
 
     
