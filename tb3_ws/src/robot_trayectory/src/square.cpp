@@ -1,4 +1,5 @@
 #include <chrono>
+#include <cmath>
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 
@@ -7,7 +8,6 @@ using namespace std::chrono_literals;
 int main(int argc, char * argv[])
 {
     rclcpp::init(argc, argv);
-
     
     auto node = rclcpp::Node::make_shared("square");
     
@@ -17,6 +17,13 @@ int main(int argc, char * argv[])
 
     double linear_speed = node->get_parameter("linear_speed").as_double();
     double angular_speed = node->get_parameter("angular_speed").as_double();
+    
+    double distance = 1.0;        // meters
+    double angle = M_PI / 2.0;    // 90 degrees
+    double loop_period = 0.01;    // 10ms
+
+    int linear_iterations = distance / (loop_period * linear_speed);
+    int angular_iterations = angle / (loop_period * angular_speed);
 
     auto publisher =
         node->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
@@ -29,7 +36,7 @@ int main(int argc, char * argv[])
     for(int j = 0; j < 4; j++)
     {
         int i = 0;
-        int n = 1000;  
+        int n = linear_iterations;  
 
         
         while (rclcpp::ok() && (i < n)) {
@@ -45,7 +52,7 @@ int main(int argc, char * argv[])
 
         
         i = 0;
-        n = 314;   
+        n = angular_iterations;   
 
         while (rclcpp::ok() && (i < n)) {
             i++;
