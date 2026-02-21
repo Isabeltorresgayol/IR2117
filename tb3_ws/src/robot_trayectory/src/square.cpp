@@ -21,6 +21,7 @@ int main(int argc, char * argv[])
     double square_length = node->get_parameter("square_length").as_double();
     
     double distance = square_length;        // meters
+    //VERSION 3 with 4
     double angle = M_PI / 2.0;    // 90 degrees
     double loop_period = 0.01;    // 10ms
 
