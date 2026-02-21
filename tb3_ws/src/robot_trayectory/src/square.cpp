@@ -10,6 +10,13 @@ int main(int argc, char * argv[])
 
     
     auto node = rclcpp::Node::make_shared("square");
+    
+    //Declaración de los parámetros en ROS, VERSIÓN 1
+    node->declare_parameter("linear_speed", 0.1);
+    node->declare_parameter("angular_speed", 0.5);
+
+    double linear_speed = node->get_parameter("linear_speed").as_double();
+    double angular_speed = node->get_parameter("angular_speed").as_double();
 
     auto publisher =
         node->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
@@ -28,7 +35,7 @@ int main(int argc, char * argv[])
         while (rclcpp::ok() && (i < n)) {
             i++;
 
-            message.linear.x = 0.1;
+            message.linear.x = linear_speed;
             message.angular.z = 0.0;
 
             publisher->publish(message);
@@ -44,7 +51,7 @@ int main(int argc, char * argv[])
             i++;
 
             message.linear.x = 0.0;
-            message.angular.z = 0.5;
+            message.angular.z = angular_speed;
 
             publisher->publish(message);
             rclcpp::spin_some(node);
