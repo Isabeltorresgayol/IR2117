@@ -11,14 +11,16 @@ int main(int argc, char * argv[])
     
     auto node = rclcpp::Node::make_shared("square");
     
-    //Declaración de los parámetros en ROS, VERSIÓN 1
+    
     node->declare_parameter("linear_speed", 0.1);
     node->declare_parameter("angular_speed", 0.5);
+    node->declare_parameter("square_length", 1.0);
 
     double linear_speed = node->get_parameter("linear_speed").as_double();
     double angular_speed = node->get_parameter("angular_speed").as_double();
+    double square_length = node->get_parameter("square_length").as_double();
     
-    double distance = 1.0;        // meters
+    double distance = square_length;        // meters
     double angle = M_PI / 2.0;    // 90 degrees
     double loop_period = 0.01;    // 10ms
 
