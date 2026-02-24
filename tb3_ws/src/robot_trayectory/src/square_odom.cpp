@@ -6,16 +6,27 @@
 
 using namespace std::chrono_literals;
 
-// V3: variables globales
+// Variables globales
 double x = 0.0;
 double y = 0.0;
+double theta = 0.0;   // V4
 
-// V3: callback odom
+// Callback odom
 void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
 {
-    // Guardar valores en globales
+    // Posición
     x = msg->pose.pose.position.x;
     y = msg->pose.pose.position.y;
+
+    // Quaternion
+    double qx = msg->pose.pose.orientation.x;
+    double qy = msg->pose.pose.orientation.y;
+    double qz = msg->pose.pose.orientation.z;
+    double qw = msg->pose.pose.orientation.w;
+
+    // Convertir a yaw (theta)
+    theta = atan2(2.0 * (qw * qz + qx * qy),
+                  1.0 - 2.0 * (qy * qy + qz * qz));
 }
 
 int main(int argc, char * argv[])
@@ -42,7 +53,6 @@ int main(int argc, char * argv[])
     auto publisher =
         node->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
 
-    // Subscriber odom
     auto sub = node->create_subscription<nav_msgs::msg::Odometry>(
         "/odom", 10, odom_callback);
 
@@ -64,8 +74,9 @@ int main(int argc, char * argv[])
             publisher->publish(message);
             rclcpp::spin_some(node);
 
-            // V3: mostrar variables globales
-            RCLCPP_INFO(node->get_logger(), "x: %f y: %f", x, y);
+            // Mostrar variables
+            RCLCPP_INFO(node->get_logger(),
+                        "x: %f y: %f theta: %f", x, y, theta);
 
             loop_rate.sleep();
         }
@@ -82,8 +93,8 @@ int main(int argc, char * argv[])
             publisher->publish(message);
             rclcpp::spin_some(node);
 
-            // V3: mostrar variables globales
-            RCLCPP_INFO(node->get_logger(), "x: %f y: %f", x, y);
+            RCLCPP_INFO(node->get_logger(),
+                        "x: %f y: %f theta: %f", x, y, theta);
 
             loop_rate.sleep();
         }
