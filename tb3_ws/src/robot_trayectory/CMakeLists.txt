@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(robot_trayectory)
 
-# Estándares C/C++
+
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
 endif()
@@ -18,13 +18,14 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 
 # Ejecutables
 add_executable(square src/square.cpp)
 ament_target_dependencies(square rclcpp geometry_msgs)
 
 add_executable(square_odom src/square_odom.cpp)
-ament_target_dependencies(square_odom rclcpp geometry_msgs)
+ament_target_dependencies(square_odom rclcpp geometry_msgs nav_msgs)
 
 # Instalación
 install(TARGETS

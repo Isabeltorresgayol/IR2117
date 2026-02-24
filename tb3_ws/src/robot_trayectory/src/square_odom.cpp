@@ -2,14 +2,28 @@
 #include <cmath>
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
+#include "nav_msgs/msg/odometry.hpp"   // He añadido esto (v2)
 
 using namespace std::chrono_literals;
+
+// V2: variables globales
+double x, y;
+
+// V2: callback odom
+void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
+{
+    x = msg->pose.pose.position.x;
+    y = msg->pose.pose.position.y;
+
+    RCLCPP_INFO(rclcpp::get_logger("square_odom"),
+                "x: %f y: %f", x, y);
+}
 
 int main(int argc, char * argv[])
 {
     rclcpp::init(argc, argv);
     
-    auto node = rclcpp::Node::make_shared("square");
+    auto node = rclcpp::Node::make_shared("square_odom");   // cambiado nombre
     
     
     node->declare_parameter("linear_speed", 0.1);
@@ -20,8 +34,7 @@ int main(int argc, char * argv[])
     double angular_speed = node->get_parameter("angular_speed").as_double();
     double square_length = node->get_parameter("square_length").as_double();
     
-    double distance = square_length;        // meters
-    //VERSION 3 with 4
+    double distance = square_length;
     double angle = M_PI / 2.0;    // 90 degrees
     double loop_period = 0.01;    // 10ms
 
@@ -30,6 +43,10 @@ int main(int argc, char * argv[])
 
     auto publisher =
         node->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+
+    // V2: subscriber odom
+    auto sub = node->create_subscription<nav_msgs::msg::Odometry>(
+        "/odom", 10, odom_callback);
 
     geometry_msgs::msg::Twist message;
 
@@ -41,7 +58,6 @@ int main(int argc, char * argv[])
         int i = 0;
         int n = linear_iterations;  
 
-        
         while (rclcpp::ok() && (i < n)) {
             i++;
 
@@ -53,7 +69,6 @@ int main(int argc, char * argv[])
             loop_rate.sleep();
         }
 
-        
         i = 0;
         n = angular_iterations;   
 
@@ -69,7 +84,6 @@ int main(int argc, char * argv[])
         }
     }
 
-    
     message.linear.x = 0.0;
     message.angular.z = 0.0;
     publisher->publish(message);
@@ -77,4 +91,3 @@ int main(int argc, char * argv[])
     rclcpp::shutdown();
     return 0;
 }
-
