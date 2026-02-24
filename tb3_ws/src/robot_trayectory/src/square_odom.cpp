@@ -6,27 +6,40 @@
 
 using namespace std::chrono_literals;
 
-// Variables globales
+// Posición actual
 double x = 0.0;
 double y = 0.0;
-double theta = 0.0;   // V4
+double theta = 0.0;
+
+// V5: posición inicial (renombradas)
+double x_init = 0.0;
+double y_init = 0.0;
+double theta_init = 0.0;
+
+bool initial_pose_stored = false;
 
 // Callback odom
 void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
 {
-    // Posición
     x = msg->pose.pose.position.x;
     y = msg->pose.pose.position.y;
 
-    // Quaternion
     double qx = msg->pose.pose.orientation.x;
     double qy = msg->pose.pose.orientation.y;
     double qz = msg->pose.pose.orientation.z;
     double qw = msg->pose.pose.orientation.w;
 
-    // Convertir a yaw (theta)
     theta = atan2(2.0 * (qw * qz + qx * qy),
                   1.0 - 2.0 * (qy * qy + qz * qz));
+
+    // V5: guardar pose inicial solo una vez
+    if(!initial_pose_stored)
+    {
+        x_init = x;
+        y_init = y;
+        theta_init = theta;
+        initial_pose_stored = true;
+    }
 }
 
 int main(int argc, char * argv[])
@@ -74,9 +87,10 @@ int main(int argc, char * argv[])
             publisher->publish(message);
             rclcpp::spin_some(node);
 
-            // Mostrar variables
+            // Mostrar todo
             RCLCPP_INFO(node->get_logger(),
-                        "x: %f y: %f theta: %f", x, y, theta);
+            "x:%f y:%f theta:%f | x0:%f y0:%f theta0:%f",
+            x, y, theta, x_init, y_init, theta_init);
 
             loop_rate.sleep();
         }
@@ -94,7 +108,8 @@ int main(int argc, char * argv[])
             rclcpp::spin_some(node);
 
             RCLCPP_INFO(node->get_logger(),
-                        "x: %f y: %f theta: %f", x, y, theta);
+            "x:%f y:%f theta:%f | x0:%f y0:%f theta0:%f",
+            x, y, theta, x_init, y_init, theta_init);
 
             loop_rate.sleep();
         }
