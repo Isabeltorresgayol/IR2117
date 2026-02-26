@@ -55,12 +55,9 @@ int main(int argc, char * argv[])
     double angular_speed = node->get_parameter("angular_speed").as_double();
     double square_length = node->get_parameter("square_length").as_double();
     
-    double distance = square_length;
     double angle = M_PI / 2.0;
-    double loop_period = 0.01;
 
-    int linear_iterations = distance / (loop_period * linear_speed);
-    int angular_iterations = angle / (loop_period * angular_speed);
+    int angular_iterations = angle / (0.01 * angular_speed);
 
     auto publisher =
         node->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
@@ -74,42 +71,36 @@ int main(int argc, char * argv[])
 
     for(int j = 0; j < 4; j++)
     {
-        int i = 0;
-        int n = linear_iterations;
+        // 🔹 Guardamos nueva referencia inicial para cada lado
+        x_init = x;
+        y_init = y;
 
-        while (rclcpp::ok() && (i < n)) {
-            i++;
+        double distance_from_start = 0.0;
 
+        while (rclcpp::ok() && distance_from_start < square_length)
+        {
             message.linear.x = linear_speed;
             message.angular.z = 0.0;
 
             publisher->publish(message);
             rclcpp::spin_some(node);
 
-            double distance_from_start = 0.0;
-            double angle_difference = 0.0;
-
-            if(initial_pose_stored)
-            {
-                distance_from_start = std::sqrt(
-                    std::pow(x - x_init, 2) +
-                    std::pow(y - y_init, 2)
-                );
-
-                angle_difference = theta - theta_init;
-            }
+            distance_from_start = std::sqrt(
+                std::pow(x - x_init, 2) +
+                std::pow(y - y_init, 2)
+            );
 
             RCLCPP_INFO(node->get_logger(),
-            "x:%f y:%f theta:%f | dist:%f | angle_diff:%f",
-            x, y, theta, distance_from_start, angle_difference);
+            "x:%f y:%f theta:%f | dist:%f",
+            x, y, theta, distance_from_start);
 
             loop_rate.sleep();
         }
 
-        i = 0;
-        n = angular_iterations;
-
-        while (rclcpp::ok() && (i < n)) {
+        // 🔹 Giro 90°
+        int i = 0;
+        while (rclcpp::ok() && i < angular_iterations)
+        {
             i++;
 
             message.linear.x = 0.0;
@@ -117,23 +108,6 @@ int main(int argc, char * argv[])
 
             publisher->publish(message);
             rclcpp::spin_some(node);
-
-            double distance_from_start = 0.0;
-            double angle_difference = 0.0;
-
-            if(initial_pose_stored)
-            {
-                distance_from_start = std::sqrt(
-                    std::pow(x - x_init, 2) +
-                    std::pow(y - y_init, 2)
-                );
-
-                angle_difference = theta - theta_init;
-            }
-
-            RCLCPP_INFO(node->get_logger(),
-            "x:%f y:%f theta:%f | dist:%f | angle_diff:%f",
-            x, y, theta, distance_from_start, angle_difference);
 
             loop_rate.sleep();
         }
