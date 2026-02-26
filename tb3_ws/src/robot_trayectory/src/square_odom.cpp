@@ -11,7 +11,7 @@ double x = 0.0;
 double y = 0.0;
 double theta = 0.0;
 
-// V5: posición inicial (renombradas)
+// Posición inicial
 double x_init = 0.0;
 double y_init = 0.0;
 double theta_init = 0.0;
@@ -87,17 +87,21 @@ int main(int argc, char * argv[])
             rclcpp::spin_some(node);
 
             double distance_from_start = 0.0;
+            double angle_difference = 0.0;
+
             if(initial_pose_stored)
             {
                 distance_from_start = std::sqrt(
                     std::pow(x - x_init, 2) +
                     std::pow(y - y_init, 2)
                 );
+
+                angle_difference = theta - theta_init;
             }
 
             RCLCPP_INFO(node->get_logger(),
-            "x:%f y:%f theta:%f | x0:%f y0:%f theta0:%f | dist:%f",
-            x, y, theta, x_init, y_init, theta_init, distance_from_start);
+            "x:%f y:%f theta:%f | dist:%f | angle_diff:%f",
+            x, y, theta, distance_from_start, angle_difference);
 
             loop_rate.sleep();
         }
@@ -115,17 +119,21 @@ int main(int argc, char * argv[])
             rclcpp::spin_some(node);
 
             double distance_from_start = 0.0;
+            double angle_difference = 0.0;
+
             if(initial_pose_stored)
             {
                 distance_from_start = std::sqrt(
                     std::pow(x - x_init, 2) +
                     std::pow(y - y_init, 2)
                 );
+
+                angle_difference = theta - theta_init;
             }
 
             RCLCPP_INFO(node->get_logger(),
-            "x:%f y:%f theta:%f | x0:%f y0:%f theta0:%f | dist:%f",
-            x, y, theta, x_init, y_init, theta_init, distance_from_start);
+            "x:%f y:%f theta:%f | dist:%f | angle_diff:%f",
+            x, y, theta, distance_from_start, angle_difference);
 
             loop_rate.sleep();
         }
