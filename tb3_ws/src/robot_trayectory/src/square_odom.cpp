@@ -18,6 +18,12 @@ double theta_init = 0.0;
 
 bool initial_pose_stored = false;
 
+// Normalizar ángulo entre -pi y pi
+double normalize_angle(double angle)
+{
+    return atan2(sin(angle), cos(angle));
+}
+
 // Callback odom
 void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
 {
@@ -55,9 +61,7 @@ int main(int argc, char * argv[])
     double angular_speed = node->get_parameter("angular_speed").as_double();
     double square_length = node->get_parameter("square_length").as_double();
     
-    double angle = M_PI / 2.0;
-
-    int angular_iterations = angle / (0.01 * angular_speed);
+    double target_angle = M_PI / 2.0;
 
     auto publisher =
         node->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
@@ -71,7 +75,7 @@ int main(int argc, char * argv[])
 
     for(int j = 0; j < 4; j++)
     {
-        // 🔹 Guardamos nueva referencia inicial para cada lado
+       
         x_init = x;
         y_init = y;
 
@@ -90,24 +94,23 @@ int main(int argc, char * argv[])
                 std::pow(y - y_init, 2)
             );
 
-            RCLCPP_INFO(node->get_logger(),
-            "x:%f y:%f theta:%f | dist:%f",
-            x, y, theta, distance_from_start);
-
             loop_rate.sleep();
         }
 
-        // 🔹 Giro 90°
-        int i = 0;
-        while (rclcpp::ok() && i < angular_iterations)
-        {
-            i++;
+       
+        theta_init = theta;
 
+        double angle_difference = 0.0;
+
+        while (rclcpp::ok() && std::fabs(angle_difference) < target_angle)
+        {
             message.linear.x = 0.0;
             message.angular.z = angular_speed;
 
             publisher->publish(message);
             rclcpp::spin_some(node);
+
+            angle_difference = normalize_angle(theta - theta_init);
 
             loop_rate.sleep();
         }
