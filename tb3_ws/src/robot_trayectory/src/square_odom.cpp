@@ -32,7 +32,6 @@ void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
     theta = atan2(2.0 * (qw * qz + qx * qy),
                   1.0 - 2.0 * (qy * qy + qz * qz));
 
-    // V5: guardar pose inicial solo una vez
     if(!initial_pose_stored)
     {
         x_init = x;
@@ -87,10 +86,18 @@ int main(int argc, char * argv[])
             publisher->publish(message);
             rclcpp::spin_some(node);
 
-            // Mostrar todo
+            double distance_from_start = 0.0;
+            if(initial_pose_stored)
+            {
+                distance_from_start = std::sqrt(
+                    std::pow(x - x_init, 2) +
+                    std::pow(y - y_init, 2)
+                );
+            }
+
             RCLCPP_INFO(node->get_logger(),
-            "x:%f y:%f theta:%f | x0:%f y0:%f theta0:%f",
-            x, y, theta, x_init, y_init, theta_init);
+            "x:%f y:%f theta:%f | x0:%f y0:%f theta0:%f | dist:%f",
+            x, y, theta, x_init, y_init, theta_init, distance_from_start);
 
             loop_rate.sleep();
         }
@@ -107,9 +114,18 @@ int main(int argc, char * argv[])
             publisher->publish(message);
             rclcpp::spin_some(node);
 
+            double distance_from_start = 0.0;
+            if(initial_pose_stored)
+            {
+                distance_from_start = std::sqrt(
+                    std::pow(x - x_init, 2) +
+                    std::pow(y - y_init, 2)
+                );
+            }
+
             RCLCPP_INFO(node->get_logger(),
-            "x:%f y:%f theta:%f | x0:%f y0:%f theta0:%f",
-            x, y, theta, x_init, y_init, theta_init);
+            "x:%f y:%f theta:%f | x0:%f y0:%f theta0:%f | dist:%f",
+            x, y, theta, x_init, y_init, theta_init, distance_from_start);
 
             loop_rate.sleep();
         }
