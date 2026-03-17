@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(robot_trayectory)
 
-
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
 endif()
@@ -27,10 +26,15 @@ ament_target_dependencies(square rclcpp geometry_msgs)
 add_executable(square_odom src/square_odom.cpp)
 ament_target_dependencies(square_odom rclcpp geometry_msgs nav_msgs)
 
+#AÑADIDO
+add_executable(wandering src/wandering.cpp)
+ament_target_dependencies(wandering rclcpp geometry_msgs nav_msgs)
+
 # Instalación
 install(TARGETS
   square
   square_odom
+  wandering   #AÑADIDO
   DESTINATION lib/${PROJECT_NAME}
 )
 
