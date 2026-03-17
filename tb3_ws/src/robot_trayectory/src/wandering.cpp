@@ -19,7 +19,14 @@ int main(int argc, char * argv[])
     auto subscription = node->create_subscription<sensor_msgs::msg::LaserScan>(
         "/scan", 10,
         [](const sensor_msgs::msg::LaserScan::SharedPtr msg) {
-            // De momento no hacemos nada
+            auto n = msg->ranges.size();
+            if (n > 270) {
+                std::cout << "ranges[0]   = " << msg->ranges[0] << std::endl;
+                std::cout << "ranges[90]  = " << msg->ranges[90] << std::endl;
+                std::cout << "ranges[180] = " << msg->ranges[180] << std::endl;
+                std::cout << "ranges[270] = " << msg->ranges[270] << std::endl;
+                std::cout << "------------------------" << std::endl;
+            }
         }
     );
 
