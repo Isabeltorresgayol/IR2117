@@ -20,17 +20,17 @@ int main(int argc, char * argv[])
         "/scan", 10,
         [](const sensor_msgs::msg::LaserScan::SharedPtr msg) {
             auto n = msg->ranges.size();
-            if (n >= 360) {  // Aseguramos que tenemos suficientes medidas
-                std::cout << "Delante [0..9]: ";
-                for (int i = 0; i <= 9; i++)
-                    std::cout << msg->ranges[i] << " ";
-                std::cout << std::endl;
+		if (n >= 360) {
+                
+                std::vector<float> front_back;
+                front_back.insert(front_back.end(), msg->ranges.begin(), msg->ranges.begin() + 10);
+                front_back.insert(front_back.end(), msg->ranges.begin() + 350, msg->ranges.begin() + 360);
 
-                std::cout << "Detrás [350..359]: ";
-                for (int i = 350; i <= 359; i++)
-                    std::cout << msg->ranges[i] << " ";
-                std::cout << std::endl;
+                // Calcular mínimo
+                float min_range = *std::min_element(front_back.begin(), front_back.end());
 
+                // Mostrar en pantalla
+                std::cout << "Mínimo distancia (0..9 + 350..359): " << min_range << std::endl;
                 std::cout << "------------------------" << std::endl;
             }
         }
