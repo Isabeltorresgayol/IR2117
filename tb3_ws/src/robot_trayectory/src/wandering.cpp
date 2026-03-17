@@ -20,11 +20,17 @@ int main(int argc, char * argv[])
         "/scan", 10,
         [](const sensor_msgs::msg::LaserScan::SharedPtr msg) {
             auto n = msg->ranges.size();
-            if (n > 270) {
-                std::cout << "ranges[0]   = " << msg->ranges[0] << std::endl;
-                std::cout << "ranges[90]  = " << msg->ranges[90] << std::endl;
-                std::cout << "ranges[180] = " << msg->ranges[180] << std::endl;
-                std::cout << "ranges[270] = " << msg->ranges[270] << std::endl;
+            if (n >= 360) {  // Aseguramos que tenemos suficientes medidas
+                std::cout << "Delante [0..9]: ";
+                for (int i = 0; i <= 9; i++)
+                    std::cout << msg->ranges[i] << " ";
+                std::cout << std::endl;
+
+                std::cout << "Detrás [350..359]: ";
+                for (int i = 350; i <= 359; i++)
+                    std::cout << msg->ranges[i] << " ";
+                std::cout << std::endl;
+
                 std::cout << "------------------------" << std::endl;
             }
         }
