@@ -1,6 +1,6 @@
 #include <chrono>
 #include <iostream>
-#include <algorithm> // std::min_element
+#include <algorithm> 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
@@ -16,24 +16,32 @@ int main(int argc, char * argv[])
     auto publisher =
         node->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10);
 
-    //V5: variable para guardar la mínima distancia detectada
-    float min_distance = std::numeric_limits<float>::infinity();
+    
+    float min_left = std::numeric_limits<float>::infinity();
+    float min_right = std::numeric_limits<float>::infinity();
 
     // Subscriber a /scan
     auto subscription = node->create_subscription<sensor_msgs::msg::LaserScan>(
         "/scan", 10,
-        [&](const sensor_msgs::msg::LaserScan::SharedPtr msg) { 
+        [&](const sensor_msgs::msg::LaserScan::SharedPtr msg) {
+
             auto n = msg->ranges.size();
             if (n >= 360) {
-                std::vector<float> front_back;
-                front_back.insert(front_back.end(), msg->ranges.begin(), msg->ranges.begin() + 10);
-                front_back.insert(front_back.end(), msg->ranges.begin() + 350, msg->ranges.begin() + 360);
 
                 
-                min_distance = *std::min_element(front_back.begin(), front_back.end());
+                min_left = *std::min_element(
+                    msg->ranges.begin(),
+                    msg->ranges.begin() + 10
+                );
+
+                min_right = *std::min_element(
+                    msg->ranges.begin() + 350,
+                    msg->ranges.begin() + 360
+                );
 
                 
-                std::cout << "Mínimo distancia (0..9 + 350..359): " << min_distance << std::endl; 
+                std::cout << "Min izquierda: " << min_left << std::endl;
+                std::cout << "Min derecha: " << min_right << std::endl;
                 std::cout << "------------------------" << std::endl;
             }
         }
@@ -47,13 +55,21 @@ int main(int argc, char * argv[])
     rclcpp::WallRate loop_rate(10ms);
 
     while (rclcpp::ok()) {
-        
-        if (min_distance >= 1.0) {       //si hay espacio, avanza
-            message.linear.x = 0.2;      //velocidad hacia delante
+
+       
+        if (min_left >= 1.0 && min_right >= 1.0) {
+            // avanzar si no hay obstáculos
+            message.linear.x = 0.2;
             message.angular.z = 0.0;
-        } else {                         //si obstáculo a <1m, para
+        } else {
+            
             message.linear.x = 0.0;
-            message.angular.z = 0.5;
+
+            if (min_left > min_right) {
+                message.angular.z = 0.5;  
+            } else {
+                message.angular.z = -0.5;  
+            }
         }
 
         publisher->publish(message);
