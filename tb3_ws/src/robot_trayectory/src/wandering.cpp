@@ -53,7 +53,7 @@ int main(int argc, char * argv[])
             message.angular.z = 0.0;
         } else {                         //si obstáculo a <1m, para
             message.linear.x = 0.0;
-            message.angular.z = 0.0;
+            message.angular.z = 0.5;
         }
 
         publisher->publish(message);
