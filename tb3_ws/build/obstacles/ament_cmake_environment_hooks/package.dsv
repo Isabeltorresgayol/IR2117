@@ -1,0 +1,4 @@
+source;share/obstacles/local_setup.bash
+source;share/obstacles/local_setup.dsv
+source;share/obstacles/local_setup.sh
+source;share/obstacles/local_setup.zsh

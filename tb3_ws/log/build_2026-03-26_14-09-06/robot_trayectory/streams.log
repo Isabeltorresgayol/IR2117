@@ -1,0 +1,31 @@
+[0.011s] Invoking command in '/home/usuario/Documentos/GitHub/IR2117/tb3_ws/build/robot_trayectory': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/usuario/Documentos/GitHub/IR2117/tb3_ws/build/robot_trayectory -- -j6 -l6
+[0.048s] [35m[1mConsolidate compiler generated dependencies of target square[0m
+[0.048s] [35m[1mConsolidate compiler generated dependencies of target square_odom[0m
+[0.048s] [35m[1mConsolidate compiler generated dependencies of target wandering[0m
+[0.065s] [ 66%] Built target square_odom
+[0.065s] [ 66%] Built target square
+[0.065s] [100%] Built target wandering
+[0.076s] Invoked command in '/home/usuario/Documentos/GitHub/IR2117/tb3_ws/build/robot_trayectory' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/usuario/Documentos/GitHub/IR2117/tb3_ws/build/robot_trayectory -- -j6 -l6
+[0.086s] Invoking command in '/home/usuario/Documentos/GitHub/IR2117/tb3_ws/build/robot_trayectory': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/usuario/Documentos/GitHub/IR2117/tb3_ws/build/robot_trayectory
+[0.094s] -- Install configuration: ""
+[0.094s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/lib/robot_trayectory/square
+[0.094s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/lib/robot_trayectory/square_odom
+[0.094s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/lib/robot_trayectory/wandering
+[0.094s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/launch
+[0.095s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/launch/square.launch.py
+[0.095s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/ament_index/resource_index/package_run_dependencies/robot_trayectory
+[0.095s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/ament_index/resource_index/parent_prefix_path/robot_trayectory
+[0.095s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/environment/ament_prefix_path.sh
+[0.095s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/environment/ament_prefix_path.dsv
+[0.095s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/environment/path.sh
+[0.095s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/environment/path.dsv
+[0.095s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/local_setup.bash
+[0.095s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/local_setup.sh
+[0.095s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/local_setup.zsh
+[0.095s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/local_setup.dsv
+[0.095s] -- Installing: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/package.dsv
+[0.095s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/ament_index/resource_index/packages/robot_trayectory
+[0.095s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/cmake/robot_trayectoryConfig.cmake
+[0.095s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/cmake/robot_trayectoryConfig-version.cmake
+[0.096s] -- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/package.xml
+[0.097s] Invoked command in '/home/usuario/Documentos/GitHub/IR2117/tb3_ws/build/robot_trayectory' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/usuario/Documentos/GitHub/IR2117/tb3_ws/build/robot_trayectory

@@ -1,0 +1,24 @@
+[100%] Built target square
+[100%] Built target wandering
+[100%] Built target square_odom
+-- Install configuration: ""
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/lib/robot_trayectory/square
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/lib/robot_trayectory/square_odom
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/lib/robot_trayectory/wandering
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/launch
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/launch/square.launch.py
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/ament_index/resource_index/package_run_dependencies/robot_trayectory
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/ament_index/resource_index/parent_prefix_path/robot_trayectory
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/environment/ament_prefix_path.sh
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/environment/path.sh
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/environment/path.dsv
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/local_setup.bash
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/local_setup.sh
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/local_setup.zsh
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/local_setup.dsv
+-- Installing: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/package.dsv
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/ament_index/resource_index/packages/robot_trayectory
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/cmake/robot_trayectoryConfig.cmake
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/cmake/robot_trayectoryConfig-version.cmake
+-- Up-to-date: /home/usuario/Documentos/GitHub/IR2117/tb3_ws/install/robot_trayectory/share/robot_trayectory/package.xml

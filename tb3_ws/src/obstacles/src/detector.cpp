@@ -43,7 +43,7 @@ int main(int argc, char * argv[])
   obs_angle_max = node->get_parameter("obs_angle_max").get_parameter_value().get<double>();
   obs_threshold = node->get_parameter("obs_threshold").get_parameter_value().get<double>();
 
-  auto subscription = node->create_subscription<sensor_msgs::msg::LaserScan>("scan", 10, callback);
+  auto subscription = node->create_subscription<sensor_msgs::msg::LaserScan>("/scan", rclcpp::SensorDataQoS(), callback);
   publisher = node->create_publisher<example_interfaces::msg::Bool>("obstacle", 10);
 
   rclcpp::spin(node);

@@ -1,0 +1,97 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-cc72846994cd3feae297.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "robot_trayectory",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "robot_trayectory_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-robot_trayectory_uninstall-3545620b5f6805ab13b1.json",
+					"name" : "robot_trayectory_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "square::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-square-95de79a035d3f32f13d4.json",
+					"name" : "square",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "square_odom::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-square_odom-4f218b28a1e346836f2c.json",
+					"name" : "square_odom",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-d2c024e8f7dfb9191276.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "wandering::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-wandering-0ce5b59e5b4c93a9a00d.json",
+					"name" : "wandering",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/usuario/Documentos/GitHub/IR2117/tb3_ws/build/robot_trayectory",
+		"source" : "/home/usuario/Documentos/GitHub/IR2117/tb3_ws/src/robot_trayectory"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

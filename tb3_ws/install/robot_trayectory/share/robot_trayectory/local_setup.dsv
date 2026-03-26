@@ -1,0 +1,2 @@
+source;share/robot_trayectory/environment/ament_prefix_path.sh
+source;share/robot_trayectory/environment/path.sh
