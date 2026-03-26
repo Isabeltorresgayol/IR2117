@@ -7,7 +7,9 @@ std::shared_ptr< rclcpp::Publisher<example_interfaces::msg::Bool> >  publisher;
 
 void callback(const sensor_msgs::msg::LaserScan::SharedPtr msg)
 {
-
+	example_interfaces::msg::Bool out_msg;
+	out_msg.data = false;
+	publisher->publish(out_msg);
 }
 
 int main(int argc, char * argv[])
