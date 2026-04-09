@@ -6,12 +6,23 @@
 
 using namespace std::chrono_literals;
 
+//Variables
+bool front_obstacle = false;
+bool left_obstacle = false;
+bool right_obstacle = false;
+
 //Callbacks vacíos by the moment
-void callback_front(const example_interfaces::msg::Bool::SharedPtr msg) {}
+void callback_front(const example_interfaces::msg::Bool::SharedPtr msg) {
+front_obstacle = msg->data;
+}
 
-void callback_left(const example_interfaces::msg::Bool::SharedPtr msg) {}
+void callback_left(const example_interfaces::msg::Bool::SharedPtr msg) {
+left_obstacle = msg->data;
+}
 
-void callback_right(const example_interfaces::msg::Bool::SharedPtr msg) {}
+void callback_right(const example_interfaces::msg::Bool::SharedPtr msg) {
+right_obstacle = msg->data;
+}
 
 int main(int argc, char * argv[])
 {
