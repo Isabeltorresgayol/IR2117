@@ -11,6 +11,15 @@ bool front_obstacle = false;
 bool left_obstacle = false;
 bool right_obstacle = false;
 
+//Estados
+enum State {
+  FORWARD,
+  TURN_LEFT,
+  TURN_RIGHT,
+  STOP
+};
+State current_state = FORWARD;
+
 //Callbacks vacíos by the moment
 void callback_front(const example_interfaces::msg::Bool::SharedPtr msg) {
 front_obstacle = msg->data;
@@ -44,8 +53,43 @@ int main(int argc, char * argv[])
   rclcpp::WallRate loop_rate(50ms);
 
   while (rclcpp::ok()) {
-    publisher->publish(message);
     rclcpp::spin_some(node);
+    
+    //TRANSICIONES (FSA)
+    if (front_obstacle) {
+      current_state = STOP;
+    } else if (left_obstacle) {
+      current_state = TURN_RIGHT;
+    } else if (right_obstacle) {
+      current_state = TURN_LEFT;
+    } else {
+      current_state = FORWARD;
+    }
+
+    // ACCIONES (FSA)
+    switch (current_state) {
+      case FORWARD:
+        message.linear.x = 0.2;
+        message.angular.z = 0.0;
+        break;
+
+      case TURN_LEFT:
+        message.linear.x = 0.0;
+        message.angular.z = 0.5;
+        break;
+
+      case TURN_RIGHT:
+        message.linear.x = 0.0;
+        message.angular.z = -0.5;
+        break;
+
+      case STOP:
+        message.linear.x = 0.0;
+        message.angular.z = 0.0;
+        break;
+    }
+
+    publisher->publish(message);
     loop_rate.sleep();
   }
   
