@@ -18,9 +18,14 @@ int main(int argc, char * argv[])
     double linear_speed=node->get_parameter("linear_speed").as_double();
     double side_length=node->get_parameter("side_length").as_double();
     
+    //V3
     double distance = side_length;
     double loop_period = 0.01;
     int linear_iterations = distance / (loop_period * linear_speed);
+    
+    //V4:añadimos el ángulo del triángulo
+    double angle = 2 * M_PI / 3.0;
+    int angular_iterations = angle / (loop_period * angular_speed);
 
     auto publisher =
         node->create_publisher<geometry_msgs::msg::Twist>("/turtle1/cmd_vel", 10);
@@ -28,20 +33,45 @@ int main(int argc, char * argv[])
     geometry_msgs::msg::Twist message;
 
     rclcpp::WallRate loop_rate(10ms);
-    int i = 0;
     
-    while (rclcpp::ok() && i < linear_iterations) {
-	    i++;
+    //Triángulo completo: 
+    for (int j = 0; j < 3; j++)
+    {
+        //LADO
+        int i = 0;
+        int n = linear_iterations;
 
-	    message.linear.x = linear_speed;
-	    message.angular.z = 0.0;
+        while (rclcpp::ok() && i < n) {
+            i++;
 
-	    publisher->publish(message);
-	    rclcpp::spin_some(node);
-	    loop_rate.sleep();
-	}
+            message.linear.x = linear_speed;
+            message.angular.z = 0.0;
 
+            publisher->publish(message);
+            rclcpp::spin_some(node);
+            loop_rate.sleep();
+        }
 
+        //GIRO
+        i = 0;
+        n = angular_iterations;
+
+        while (rclcpp::ok() && i < n) {
+            i++;
+
+            message.linear.x = 0.0;
+            message.angular.z = angular_speed;
+
+            publisher->publish(message);
+            rclcpp::spin_some(node);
+            loop_rate.sleep();
+        }
+    }
+
+    //parar al final
+    message.linear.x = 0.0;
+    message.angular.z = 0.0;
+    publisher->publish(message);
 
     rclcpp::shutdown();
     return 0;
