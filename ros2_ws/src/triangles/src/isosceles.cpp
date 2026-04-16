@@ -12,11 +12,13 @@ int main(int argc, char * argv[])
     //añadimos los parámetros
     node->declare_parameter("angular_speed", 0.5);
     node->declare_parameter("linear_speed", 1.0);
-    node->declare_parameter("side_length", 2.0);
+    node->declare_parameter("side_length", 1.0);
+    node->declare_parameter("lateral_length", 2.0);
 
     double angular_speed=node->get_parameter("angular_speed").as_double();
     double linear_speed=node->get_parameter("linear_speed").as_double();
     double side_length=node->get_parameter("side_length").as_double();
+    double lateral_length= node->get_parameter("lateral_length").as_double();
     
     //V3
     double distance = side_length;
