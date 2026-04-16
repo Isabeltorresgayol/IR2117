@@ -20,15 +20,17 @@ int main(int argc, char * argv[])
     double side_length=node->get_parameter("side_length").as_double();
     double lateral_length= node->get_parameter("lateral_length").as_double();
     
-    //V3
-    double distance = side_length;
-    double loop_period = 0.01;
-    int linear_iterations = distance / (loop_period * linear_speed);
-    
-    //V4:añadimos el ángulo del triángulo
-    double angle = 2 * M_PI / 3.0;
-    int angular_iterations = angle / (loop_period * angular_speed);
+    // Iteraciones para cada lado
+    int base_iterations = base_length / (loop_period * linear_speed);
+    int lateral_iterations = lateral_length / (loop_period * linear_speed);
 
+    // Ángulos
+    double angle_base = M_PI / 3.0;        // 60°
+    double angle_lateral = 2 * M_PI / 3.0; // 120°
+
+    int angle_base_iter = angle_base / (loop_period * angular_speed);
+    int angle_lateral_iter = angle_lateral / (loop_period * angular_speed);
+    
     auto publisher =
         node->create_publisher<geometry_msgs::msg::Twist>("/turtle1/cmd_vel", 10);
 
