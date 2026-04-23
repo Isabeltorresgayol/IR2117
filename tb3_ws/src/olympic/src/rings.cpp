@@ -4,32 +4,50 @@
 
 using namespace std::chrono_literals;
 
+class RingsNode : public rclcpp::Node
+{
+public:
+  RingsNode() : Node("rings")
+  {
+    // Declararamos el parámetro (en la V5.1 ya lo hemos hecho)
+    this->declare_parameter("radius", 1.0);
+
+    publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/turtle1/cmd_vel", 10);
+
+    // Timer para publicar periódicamente
+    timer_ = this->create_wall_timer(
+      500ms, std::bind(&RingsNode::timer_callback, this));
+  }
+
+private:
+  void timer_callback()
+  {
+    double radius = this->get_parameter("radius").as_double();
+
+    if (radius <= 0.0) {
+      RCLCPP_WARN(this->get_logger(), "El radio debería ser > 0. Using 1.0");
+      radius = 1.0;
+    }
+
+    geometry_msgs::msg::Twist msg;
+
+    double linear_speed = 1.0;
+    msg.linear.x = linear_speed;
+    msg.angular.z = linear_speed / radius;
+
+    publisher_->publish(msg);
+
+    RCLCPP_INFO(this->get_logger(), "radius = %f", radius);
+  }
+
+  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
+  rclcpp::TimerBase::SharedPtr timer_;
+};
+
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  auto node = rclcpp::Node::make_shared("rings");
-
-  // Declaramos el radio
-  node->declare_parameter("radius", 1.0);
-
-  // Obtenemos el valor del parámetro
-  double radius = node->get_parameter("radius").as_double();
-
-  auto publisher = node->create_publisher<geometry_msgs::msg::Twist>("/turtle1/cmd_vel", 10);
-  geometry_msgs::msg::Twist message;
-  rclcpp::WallRate loop_rate(500ms);
-
-  double linear_speed = 1.0;
-
-  while (rclcpp::ok()) {
-    message.linear.x = linear_speed;
-    message.angular.z = linear_speed / radius;  // usamos el radio
-
-    publisher->publish(message);
-    rclcpp::spin_some(node);
-    loop_rate.sleep();
-  }
-
+  rclcpp::spin(std::make_shared<RingsNode>());
   rclcpp::shutdown();
   return 0;
 }
