@@ -22,7 +22,7 @@ public:
     move_without_drawing(7.5, 7.0, 0.0);
 
     // Color negro
-    set_pen(0, 0, 0, 5, 0);
+    set_pen(255, 0, 0, 5, 0);
 
     timer_ = this->create_wall_timer(
       500ms, std::bind(&RingsNode::timer_callback, this));
@@ -69,7 +69,7 @@ private:
     teleport_client_->async_send_request(request);
 
     // Encender lápiz
-    set_pen(0, 0, 0, 5, 0);
+    set_pen(255, 0, 0, 5, 0);
   }
 
   void timer_callback()
