@@ -11,28 +11,25 @@ class RingsNode : public rclcpp::Node
 public:
   RingsNode() : Node("rings")
   {
-    // Parámetro del radio
     this->declare_parameter("radius", 1.0);
 
-    // Publisher de velocidad
     publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/turtle1/cmd_vel", 10);
 
-    // Clientes de servicios
     pen_client_ = this->create_client<turtlesim::srv::SetPen>("/turtle1/set_pen");
     teleport_client_ = this->create_client<turtlesim::srv::TeleportAbsolute>("/turtle1/teleport_absolute");
 
-    // Secuencia inicial
-    move_without_drawing(5.0, 5.0, 0.0); // mover al centro
-    set_pen(0, 0, 255, 5, 0); // azul
+    // Posición inicial del aro
+    move_without_drawing(7.5, 7.0, 0.0);
 
-    // Timer
+    // Color negro
+    set_pen(0, 0, 0, 5, 0);
+
     timer_ = this->create_wall_timer(
       500ms, std::bind(&RingsNode::timer_callback, this));
   }
 
 private:
 
-  //Servicio set_pen
   void set_pen(int r, int g, int b, int width, int off)
   {
     while (!pen_client_->wait_for_service(1s)) {
@@ -49,9 +46,14 @@ private:
     pen_client_->async_send_request(request);
   }
 
-  //Teleport SIN dibujar
   void move_without_drawing(double x, double y, double theta)
   {
+    // PARAR movimiento antes de teletransportar
+    geometry_msgs::msg::Twist stop;
+    stop.linear.x = 0.0;
+    stop.angular.z = 0.0;
+    publisher_->publish(stop);
+
     // Apagar lápiz
     set_pen(0, 0, 0, 1, 1);
 
@@ -66,8 +68,8 @@ private:
 
     teleport_client_->async_send_request(request);
 
-    // Encender lápiz otra vez (azul)
-    set_pen(0, 0, 255, 5, 0);
+    // Encender lápiz
+    set_pen(0, 0, 0, 5, 0);
   }
 
   void timer_callback()
@@ -86,8 +88,6 @@ private:
     msg.angular.z = linear_speed / radius;
 
     publisher_->publish(msg);
-
-    RCLCPP_INFO(this->get_logger(), "radius = %f", radius);
   }
 
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
