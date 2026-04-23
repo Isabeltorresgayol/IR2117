@@ -19,8 +19,8 @@ public:
     teleport_client_ = this->create_client<turtlesim::srv::TeleportAbsolute>("/turtle1/teleport_absolute");
 
     // Posición inicial
-    move_without_drawing(6.5, 5.8, 0.0);
-    set_pen(0, 255, 0, 5, 0);
+    move_without_drawing(4.5, 5.8, 0.0);
+    set_pen(255, 255, 0, 5, 0);
 
     timer_ = this->create_wall_timer(
       500ms, std::bind(&RingsNode::timer_callback, this));
@@ -65,7 +65,7 @@ private:
     teleport_client_->async_send_request(request);
 
     // Encender lápiz
-    set_pen(0, 255, 0, 5, 0);
+    set_pen(255, 255, 0, 5, 0);
   }
 
   void timer_callback()
