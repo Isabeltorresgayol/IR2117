@@ -2,6 +2,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "turtlesim/srv/set_pen.hpp"
+#include "turtlesim/srv/teleport_absolute.hpp"
 
 using namespace std::chrono_literals;
 
@@ -16,11 +17,13 @@ public:
     // Publisher de velocidad
     publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/turtle1/cmd_vel", 10);
 
-    // Cliente del servicio set_pen
-    client_ = this->create_client<turtlesim::srv::SetPen>("/turtle1/set_pen");
+    // Clientes de servicios
+    pen_client_ = this->create_client<turtlesim::srv::SetPen>("/turtle1/set_pen");
+    teleport_client_ = this->create_client<turtlesim::srv::TeleportAbsolute>("/turtle1/teleport_absolute");
 
-    // Llamamos al servicio una vez al inicio
-    set_pen();
+    // Secuencia inicial
+    move_without_drawing(5.0, 5.0, 0.0); // mover al centro
+    set_pen(0, 0, 255, 5, 0); // azul
 
     // Timer
     timer_ = this->create_wall_timer(
@@ -28,27 +31,43 @@ public:
   }
 
 private:
-  void set_pen()
+
+  //Servicio set_pen
+  void set_pen(int r, int g, int b, int width, int off)
   {
-    // Esperar a que el servicio esté disponible
-    while (!client_->wait_for_service(1s)) {
-      if (!rclcpp::ok()) {
-        RCLCPP_ERROR(this->get_logger(), "Interrumpido esperando el servicio");
-        return;
-      }
-      RCLCPP_INFO(this->get_logger(), "Esperando servicio /turtle1/set_pen...");
+    while (!pen_client_->wait_for_service(1s)) {
+      if (!rclcpp::ok()) return;
     }
 
     auto request = std::make_shared<turtlesim::srv::SetPen::Request>();
+    request->r = r;
+    request->g = g;
+    request->b = b;
+    request->width = width;
+    request->off = off;
 
-    // Configuración del lápiz
-    request->r = 0;   
-    request->g = 0;
-    request->b = 255; //azul
-    request->width = 5;
-    request->off = 0;   // 0 = dibuja, 1 = no dibuja
+    pen_client_->async_send_request(request);
+  }
 
-    client_->async_send_request(request);
+  //Teleport SIN dibujar
+  void move_without_drawing(double x, double y, double theta)
+  {
+    // Apagar lápiz
+    set_pen(0, 0, 0, 1, 1);
+
+    while (!teleport_client_->wait_for_service(1s)) {
+      if (!rclcpp::ok()) return;
+    }
+
+    auto request = std::make_shared<turtlesim::srv::TeleportAbsolute::Request>();
+    request->x = x;
+    request->y = y;
+    request->theta = theta;
+
+    teleport_client_->async_send_request(request);
+
+    // Encender lápiz otra vez (azul)
+    set_pen(0, 0, 255, 5, 0);
   }
 
   void timer_callback()
@@ -72,7 +91,8 @@ private:
   }
 
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
-  rclcpp::Client<turtlesim::srv::SetPen>::SharedPtr client_;
+  rclcpp::Client<turtlesim::srv::SetPen>::SharedPtr pen_client_;
+  rclcpp::Client<turtlesim::srv::TeleportAbsolute>::SharedPtr teleport_client_;
   rclcpp::TimerBase::SharedPtr timer_;
 };
 
