@@ -18,11 +18,9 @@ public:
     pen_client_ = this->create_client<turtlesim::srv::SetPen>("/turtle1/set_pen");
     teleport_client_ = this->create_client<turtlesim::srv::TeleportAbsolute>("/turtle1/teleport_absolute");
 
-    // Posición inicial del aro
-    move_without_drawing(7.5, 7.0, 0.0);
-
-    // Color negro
-    set_pen(255, 0, 0, 5, 0);
+    // Posición inicial
+    move_without_drawing(6.5, 5.8, 0.0);
+    set_pen(0, 255, 0, 5, 0);
 
     timer_ = this->create_wall_timer(
       500ms, std::bind(&RingsNode::timer_callback, this));
@@ -48,11 +46,9 @@ private:
 
   void move_without_drawing(double x, double y, double theta)
   {
-    // PARAR movimiento antes de teletransportar
-    geometry_msgs::msg::Twist stop;
-    stop.linear.x = 0.0;
-    stop.angular.z = 0.0;
-    publisher_->publish(stop);
+    //PARADA REAL del movimiento del timer
+    publisher_->publish(geometry_msgs::msg::Twist());
+    rclcpp::sleep_for(150ms);
 
     // Apagar lápiz
     set_pen(0, 0, 0, 1, 1);
@@ -69,7 +65,7 @@ private:
     teleport_client_->async_send_request(request);
 
     // Encender lápiz
-    set_pen(255, 0, 0, 5, 0);
+    set_pen(0, 255, 0, 5, 0);
   }
 
   void timer_callback()
@@ -77,15 +73,13 @@ private:
     double radius = this->get_parameter("radius").as_double();
 
     if (radius <= 0.0) {
-      RCLCPP_WARN(this->get_logger(), "El radio debería ser > 0. Using 1.0");
       radius = 1.0;
     }
 
     geometry_msgs::msg::Twist msg;
 
-    double linear_speed = 1.0;
-    msg.linear.x = linear_speed;
-    msg.angular.z = linear_speed / radius;
+    msg.linear.x = 1.0;
+    msg.angular.z = 1.0 / radius;
 
     publisher_->publish(msg);
   }
