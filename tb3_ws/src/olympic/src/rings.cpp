@@ -19,8 +19,8 @@ public:
     teleport_client_ = this->create_client<turtlesim::srv::TeleportAbsolute>("/turtle1/teleport_absolute");
 
     // Posición inicial
-    move_without_drawing(4.5, 5.8, 0.0);
-    set_pen(255, 255, 0, 5, 0);
+    move_without_drawing(6.5, 5.8, 0.0);
+    set_pen(0, 255, 0, 5, 0);
 
     timer_ = this->create_wall_timer(
       500ms, std::bind(&RingsNode::timer_callback, this));
@@ -46,11 +46,9 @@ private:
 
   void move_without_drawing(double x, double y, double theta)
   {
-    //PARADA REAL del movimiento del timer
     publisher_->publish(geometry_msgs::msg::Twist());
     rclcpp::sleep_for(150ms);
 
-    // Apagar lápiz
     set_pen(0, 0, 0, 1, 1);
 
     while (!teleport_client_->wait_for_service(1s)) {
@@ -64,24 +62,61 @@ private:
 
     teleport_client_->async_send_request(request);
 
-    // Encender lápiz
-    set_pen(255, 255, 0, 5, 0);
+    set_pen(0, 255, 0, 5, 0);
   }
 
-  void timer_callback()
+  //AÑADIDO: dibujar círculo completo
+  void draw_circle(double radius)
   {
-    double radius = this->get_parameter("radius").as_double();
-
-    if (radius <= 0.0) {
-      radius = 1.0;
-    }
-
     geometry_msgs::msg::Twist msg;
-
     msg.linear.x = 1.0;
     msg.angular.z = 1.0 / radius;
 
-    publisher_->publish(msg);
+    double time = 2 * M_PI * radius;
+
+    auto start = this->now();
+    rclcpp::Rate rate(30);
+
+    while ((this->now() - start).seconds() < time) {
+      publisher_->publish(msg);
+      rate.sleep();
+    }
+
+    publisher_->publish(geometry_msgs::msg::Twist());
+  }
+
+  //AÑADIDO: los 5 aros con for
+  void draw_olympic_rings()
+  {
+    double x[5] = {5.0, 7.0, 9.0, 6.0, 8.0};
+    double y[5] = {6.0, 6.0, 6.0, 5.0, 5.0};
+
+    int red[5]   = {0, 0, 255, 255, 0};
+    int green[5] = {0, 0, 0, 255, 255};
+    int blue[5]  = {255, 0, 0, 0, 0};
+
+    double radius = 1.0;
+
+    for (int r = 0; r < 5; r++)
+    {
+      move_without_drawing(x[r], y[r], 0.0);
+      set_pen(red[r], green[r], blue[r], 5, 0);
+      draw_circle(radius);
+    }
+  }
+
+  //MODIFICADO: se ejecuta solo una vez
+  void timer_callback()
+  {
+    static bool done = false;
+
+    if (!done)
+    {
+      draw_olympic_rings();
+      done = true;
+
+      timer_->cancel();  // evita que se repita
+    }
   }
 
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
@@ -97,3 +132,4 @@ int main(int argc, char * argv[])
   rclcpp::shutdown();
   return 0;
 }
+
