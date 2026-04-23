@@ -42,9 +42,9 @@ private:
     auto request = std::make_shared<turtlesim::srv::SetPen::Request>();
 
     // Configuración del lápiz
-    request->r = 255;   // rojo
+    request->r = 0;   
     request->g = 0;
-    request->b = 0;
+    request->b = 255; //azul
     request->width = 5;
     request->off = 0;   // 0 = dibuja, 1 = no dibuja
 
