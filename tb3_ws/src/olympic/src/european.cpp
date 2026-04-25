@@ -55,50 +55,60 @@ private:
 	    request->theta = theta;
 
 	    teleport_client_->async_send_request(request);
-
-	    set_pen(0, 255, 0, 5, 0);
+	    
+	    //amarillo para las estrellas
+	    set_pen(255, 255, 0, 5, 0);
   }
-  void draw_circle(double radius){
-    geometry_msgs::msg::Twist msg;
-    msg.linear.x = 1.0;
-    msg.angular.z = 1.0 / radius;
+  
+  //EN LA V5 QUITAMOS EL draw_circle, y lo sustituimos por esta función que sí dibuja estrellas reales
+  void draw_star(double x, double y, double size)
+  {
+  set_pen(255, 215, 0, 3, 0); // amarillo UE
 
-    double time = 2 * M_PI * radius;
+	  for (int i = 0; i < 5; i++)
+	  {
+	    double angle1 = i * 2 * M_PI / 5;
+	    double angle2 = (i + 2) * 2 * M_PI / 5;
 
-    auto start = this->now();
-    rclcpp::Rate rate(30);
+	    double x1 = x + size * cos(angle1);
+	    double y1 = y + size * sin(angle1);
 
-    while ((this->now() - start).seconds() < time)
-    {
-      publisher_->publish(msg);
-      rate.sleep();
-    }
+	    double x2 = x + size * 0.4 * cos(angle2);
+	    double y2 = y + size * 0.4 * sin(angle2);
 
-    publisher_->publish(geometry_msgs::msg::Twist());
+	    move_without_drawing(x1, y1, 0.0);
+
+	    geometry_msgs::msg::Twist msg;
+	    msg.linear.x = 1.0;
+	    publisher_->publish(msg);
+
+	    rclcpp::sleep_for(50ms);
+
+	    move_without_drawing(x2, y2, 0.0);
+	  }
+
+  publisher_->publish(geometry_msgs::msg::Twist());
   }
   //AÑADIDO PARA LA EUROPEAN FLAG : ESTRELLITAS EN EL CÍRCULO
-	void draw_european_flag_v4()
+	void draw_european_flag_v5()
 	{
 	  int n = 12;
 	  double center_x = 6.0;
 	  double center_y = 5.5;
-	  //voy  acambiar los nombres de las variables V4
-	  double radius = 2.2;   // radio del círculo donde van las estrellas
-	  double star_size = 0.25; // tamaño de cada estrella (círculo)
-
+	  double radius = 2.0;
+	  
+	  //ESTRELLAS UNA POR UNA
 	  for (int i = 0; i < n; i++)
 	  {
 	    double angle = i * 2 * M_PI / n;
 
 	    double x = center_x + radius * cos(angle);
 	    double y = center_y + radius * sin(angle);
+	    
+	    rclcpp::sleep_for(200ms);
+	    draw_star(x, y, 0.4);
 
 	    move_without_drawing(x, y, angle + M_PI/2);
-
-	    // amarillo ESTRELLITAS
-	    set_pen(255, 255, 0, 3, 0);
-
-	    draw_circle(star_size);
 	  }
 	}
   //callback
@@ -108,7 +118,7 @@ private:
 
     if (!done)
     {
-      draw_european_flag_v4();
+      draw_european_flag_v5();
       done = true;
       timer_->cancel();  // evita que se repita
     }
