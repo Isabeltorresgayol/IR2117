@@ -1,15 +1,17 @@
 #include <chrono>
+#include <cmath>
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "turtlesim/srv/set_pen.hpp"
 #include "turtlesim/srv/teleport_absolute.hpp"
 
+
 using namespace std::chrono_literals;
 
-class RingsNode : public rclcpp::Node
+class EuropeanNode : public rclcpp::Node
 {
 public:
-  RingsNode() : Node("rings")
+  EuropeanNode() : Node("european")
   {
     this->declare_parameter("radius", 1.0);
 
@@ -23,7 +25,7 @@ public:
     set_pen(0, 255, 0, 5, 0);
 
     timer_ = this->create_wall_timer(
-      500ms, std::bind(&RingsNode::timer_callback, this));
+      500ms, std::bind(&EuropeanNode::timer_callback, this));
   }
 
 private:
@@ -85,26 +87,30 @@ private:
     publisher_->publish(geometry_msgs::msg::Twist());
   }
 
-  //AÑADIDO: los 5 aros con for
-  void draw_olympic_rings()
-  {
-    double x[5] = {5.0, 7.0, 9.0, 6.0, 8.0};
-    double y[5] = {6.0, 6.0, 6.0, 5.0, 5.0};
+  //AÑADIDO PARA LA EUROPEAN FLAG V1
+	void draw_european_flag_v1()
+	{
+	  int n = 12;
+	  double center_x = 6.0;
+	  double center_y = 5.5;
+	  double big_radius = 2.5;   // radio del círculo donde van las estrellas
+	  double small_radius = 0.3; // tamaño de cada estrella (círculo)
 
-    int red[5]   = {0, 0, 255, 255, 0};
-    int green[5] = {0, 0, 0, 255, 255};
-    int blue[5]  = {255, 0, 0, 0, 0};
+	  for (int i = 0; i < n; i++)
+	  {
+	    double angle = i * 2 * M_PI / n;
 
-    double radius = 1.0;
+	    double x = center_x + big_radius * cos(angle);
+	    double y = center_y + big_radius * sin(angle);
 
-    for (int r = 0; r < 5; r++)
-    {
-      move_without_drawing(x[r], y[r], 0.0);
-      set_pen(red[r], green[r], blue[r], 5, 0);
-      draw_circle(radius);
-    }
-  }
+	    move_without_drawing(x, y, 0.0);
 
+	    // amarillo
+	    set_pen(255, 255, 0, 3, 0);
+
+	    draw_circle(small_radius);
+	  }
+	}
   //MODIFICADO: se ejecuta solo una vez
   void timer_callback()
   {
@@ -112,7 +118,7 @@ private:
 
     if (!done)
     {
-      draw_olympic_rings();
+      draw_european_flag_v1();
       done = true;
 
       timer_->cancel();  // evita que se repita
@@ -128,7 +134,7 @@ private:
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<RingsNode>());
+  rclcpp::spin(std::make_shared<EuropeanNode>());
   rclcpp::shutdown();
   return 0;
 }
