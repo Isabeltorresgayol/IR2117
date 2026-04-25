@@ -61,41 +61,53 @@ private:
   }
   
   //EN LA V5 QUITAMOS EL draw_circle, y lo sustituimos por esta función que sí dibuja estrellas reales
-  void draw_star(double x, double y, double size)
+  void draw_star(double cx, double cy, double size)
   {
-  set_pen(255, 215, 0, 3, 0); // amarillo UE
+	  set_pen(255, 255, 0, 5, 0); // amarillo UE
+	  rclcpp::sleep_for(50ms);
+	  
+	  const int points = 5;
+	  double outer_r = size;
+	  double inner_r = size * 0.4;
 
-	  for (int i = 0; i < 5; i++)
+	  // empezamos en ángulo -π/2 para que apunte hacia arriba
+	  double start_angle = -M_PI / 2;
+
+	  // vamos a construir 10 puntos (5 externos + 5 internos)
+	  double px, py;
+
+	  for (int i = 0; i <= 10; i++)
 	  {
-	    double angle1 = i * 2 * M_PI / 5;
-	    double angle2 = (i + 2) * 2 * M_PI / 5;
+	    double r = (i % 2 == 0) ? outer_r : inner_r;
+	    double angle = start_angle + i * M_PI / 5;
 
-	    double x1 = x + size * cos(angle1);
-	    double y1 = y + size * sin(angle1);
+	    px = cx + r * cos(angle);
+	    py = cy + r * sin(angle);
 
-	    double x2 = x + size * 0.4 * cos(angle2);
-	    double y2 = y + size * 0.4 * sin(angle2);
+	    if (i == 0)
+	    {
+	      move_without_drawing(px, py, 0.0); // salto inicial limpio
+	    }
+	    else
+	    {
+	      geometry_msgs::msg::Twist msg;
+	      msg.linear.x = 2.0;
+	      publisher_->publish(msg);
+	      rclcpp::sleep_for(60ms);
+	    }
 
-	    move_without_drawing(x1, y1, 0.0);
-
-	    geometry_msgs::msg::Twist msg;
-	    msg.linear.x = 1.0;
-	    publisher_->publish(msg);
-
-	    rclcpp::sleep_for(50ms);
-
-	    move_without_drawing(x2, y2, 0.0);
+	    move_without_drawing(px, py, 0.0);
 	  }
 
-  publisher_->publish(geometry_msgs::msg::Twist());
+	  publisher_->publish(geometry_msgs::msg::Twist());
   }
-  //AÑADIDO PARA LA EUROPEAN FLAG : ESTRELLITAS EN EL CÍRCULO
-	void draw_european_flag_v5()
+  //AÑADIDO PARA LA EUROPEAN FLAG : ESTRELLITAS EN EL CÍRCULO (V6-ARREGLAR DRAW FLAG (SIN ROTACIONES RARAS))
+	void draw_european_flag_v6()
 	{
 	  int n = 12;
 	  double center_x = 6.0;
 	  double center_y = 5.5;
-	  double radius = 2.0;
+	  double radius = 2.6; //cambiado para la v6 para tener más separación entre las estrellas
 	  
 	  //ESTRELLAS UNA POR UNA
 	  for (int i = 0; i < n; i++)
@@ -105,10 +117,8 @@ private:
 	    double x = center_x + radius * cos(angle);
 	    double y = center_y + radius * sin(angle);
 	    
-	    rclcpp::sleep_for(200ms);
-	    draw_star(x, y, 0.4);
-
-	    move_without_drawing(x, y, angle + M_PI/2);
+	    rclcpp::sleep_for(150ms);
+	    draw_star(x, y, 0.35);
 	  }
 	}
   //callback
@@ -118,7 +128,7 @@ private:
 
     if (!done)
     {
-      draw_european_flag_v5();
+      draw_european_flag_v6();
       done = true;
       timer_->cancel();  // evita que se repita
     }
