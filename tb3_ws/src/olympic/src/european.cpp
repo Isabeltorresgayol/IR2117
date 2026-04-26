@@ -62,45 +62,68 @@ private:
   
   //EN LA V5 QUITAMOS EL draw_circle, y lo sustituimos por esta función que sí dibuja estrellas reales
   void draw_star(double cx, double cy, double size)
+{
+  set_pen(255, 255, 0, 5, 0);
+
+  const int points = 5;
+  double outer_r = size;
+  double inner_r = size * 0.4;
+
+  double start_angle = M_PI / 2;
+
+  std::vector<std::pair<double,double>> pts;
+
+  // Generar puntos
+  for (int i = 0; i < 10; i++)
   {
-	  set_pen(255, 255, 0, 5, 0); // amarillo UE
-	  rclcpp::sleep_for(50ms);
-	  
-	  const int points = 5;
-	  double outer_r = size;
-	  double inner_r = size * 0.4;
+    double r = (i % 2 == 0) ? outer_r : inner_r;
+    double angle = start_angle + i * M_PI / 5;
 
-	  // empezamos en ángulo -π/2 para que apunte hacia arriba
-	  double start_angle = -M_PI / 2;
+    double px = cx + r * cos(angle);
+    double py = cy + r * sin(angle);
 
-	  // vamos a construir 10 puntos (5 externos + 5 internos)
-	  double px, py;
-
-	  for (int i = 0; i <= 10; i++)
-	  {
-	    double r = (i % 2 == 0) ? outer_r : inner_r;
-	    double angle = start_angle + i * M_PI / 5;
-
-	    px = cx + r * cos(angle);
-	    py = cy + r * sin(angle);
-
-	    if (i == 0)
-	    {
-	      move_without_drawing(px, py, 0.0); // salto inicial limpio
-	    }
-	    else
-	    {
-	      geometry_msgs::msg::Twist msg;
-	      msg.linear.x = 2.0;
-	      publisher_->publish(msg);
-	      rclcpp::sleep_for(60ms);
-	    }
-
-	    move_without_drawing(px, py, 0.0);
-	  }
-
-	  publisher_->publish(geometry_msgs::msg::Twist());
+    pts.push_back({px, py});
   }
+
+  // Ir al primer punto SIN dibujar
+  move_without_drawing(pts[0].first, pts[0].second, 0.0);
+  set_pen(255, 255, 0, 5, 0);
+
+  // Dibujar la estrella
+  for (int i = 1; i <= 10; i++)
+  {
+    auto [x1, y1] = pts[i-1];
+    auto [x2, y2] = pts[i % 10];
+
+    double dx = x2 - x1;
+    double dy = y2 - y1;
+
+    double distance = std::sqrt(dx*dx + dy*dy);
+    double angle = std::atan2(dy, dx);
+
+    // Teleport SOLO para orientar (sin dibujar)
+    set_pen(0,0,0,1,1);
+    move_without_drawing(x1, y1, angle);
+    
+    
+   //parar antes de dibujar SUPER IMPORTANTEEEE
+   publisher_->publish(geometry_msgs::msg::Twist());
+   rclcpp::sleep_for(50ms);
+    
+   //ENCENDER EL LAPIZZ
+   set_pen(255,255,0,5,0);
+   rclcpp::sleep_for(50ms);
+
+    // Avanzar dibujando
+    geometry_msgs::msg::Twist msg;
+    msg.linear.x = 2.0;
+
+    publisher_->publish(msg);
+    rclcpp::sleep_for(std::chrono::milliseconds((int)(distance * 500)));
+
+    publisher_->publish(geometry_msgs::msg::Twist());
+  }
+}
   //AÑADIDO PARA LA EUROPEAN FLAG : ESTRELLITAS EN EL CÍRCULO (V6-ARREGLAR DRAW FLAG (SIN ROTACIONES RARAS))
 	void draw_european_flag_v6()
 	{
