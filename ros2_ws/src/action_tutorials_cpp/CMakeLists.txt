@@ -34,6 +34,7 @@ ament_target_dependencies(action_client
 )
 
 install(TARGETS
+  action_server
   action_client
   DESTINATION lib/${PROJECT_NAME}
 )
