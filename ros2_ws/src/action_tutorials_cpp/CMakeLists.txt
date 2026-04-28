@@ -25,6 +25,19 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME}
 )
 
+add_executable(action_client src/action_client.cpp)
+
+ament_target_dependencies(action_client
+  rclcpp
+  rclcpp_action
+  action_tutorials_interfaces
+)
+
+install(TARGETS
+  action_client
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
