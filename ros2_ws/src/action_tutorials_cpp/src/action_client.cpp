@@ -43,7 +43,7 @@ int main(int argc, char ** argv)
 
   // Crear goal
   auto goal_msg = Fibonacci::Goal();
-  goal_msg.order = 10;
+  goal_msg.order = 15;
 
   RCLCPP_INFO(g_node->get_logger(), "Sending goal");
 
