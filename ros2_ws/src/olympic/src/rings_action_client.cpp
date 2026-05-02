@@ -15,14 +15,13 @@ rclcpp::Node::SharedPtr g_node = nullptr;
 // Callback de feedback
 void feedback_callback(
   GoalHandleRings::SharedPtr,
-  const std::shared_ptr<const Rings::Feedback> feedback) //cambiado
+  const std::shared_ptr<const Rings::Feedback> feedback)
 {
-  RCLCPP_INFO(
-    g_node->get_logger(),
-    "Drawing ring: %d | Angle: %f",
+  RCLCPP_INFO(rclcpp::get_logger("rings_action_client"),
+    "Ring: %d | Angle: %.2f",
     feedback->drawing_ring,
     feedback->ring_angle);
-} //cambiado
+}
 
 int main(int argc, char ** argv)
 {
