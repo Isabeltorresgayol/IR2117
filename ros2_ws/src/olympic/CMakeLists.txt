@@ -11,13 +11,24 @@ find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(turtlesim REQUIRED)
 find_package(olympic_interfaces REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 add_executable(rings_action_server src/rings_action_server.cpp)
 add_executable(rings_action_client src/rings_action_client.cpp)
 
-ament_target_dependencies(rings_action_server rclcpp rclcpp_action olympic_interfaces)
-ament_target_dependencies(rings_action_client rclcpp rclcpp_action olympic_interfaces)
+ament_target_dependencies(rings_action_server
+  rclcpp
+  geometry_msgs
+  rclcpp_action
+  olympic_interfaces
+)
 
+ament_target_dependencies(rings_action_client
+  rclcpp
+  geometry_msgs
+  rclcpp_action
+  olympic_interfaces
+)
 install(TARGETS
   rings_action_server
   rings_action_client
