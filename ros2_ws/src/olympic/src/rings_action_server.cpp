@@ -52,8 +52,8 @@ void execute(const std::shared_ptr<GoalHandleRings> goal_handle, rclcpp::Publish
    {
     publisher->publish(msg);
 
-    feedback->drawing_ring = 0;
-    feedback->ring_angle = i * 3.6; // aprox 360 grados
+    feedback->drawing_ring = 1;
+    feedback->ring_angle = (i / 100.0) * 360.0;
  
     goal_handle->publish_feedback(feedback);
 
