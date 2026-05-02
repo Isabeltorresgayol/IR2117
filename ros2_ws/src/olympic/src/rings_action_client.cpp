@@ -1,38 +1,39 @@
-#include <inttypes.h>
+
 #include <memory>
 #include <chrono>
 
-#include "action_tutorials_interfaces/action/fibonacci.hpp"
+#include "olympic_interfaces/action/rings.hpp" //cambiado
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 
-using Fibonacci = action_tutorials_interfaces::action::Fibonacci;
-using GoalHandleFibonacci = rclcpp_action::ClientGoalHandle<Fibonacci>;
+using Rings = olympic_interfaces::action::Rings; //cambiado
+using GoalHandleRings = rclcpp_action::ClientGoalHandle<Rings>; //cambiado
 using namespace std::chrono_literals;
 
 rclcpp::Node::SharedPtr g_node = nullptr;
 
 // Callback de feedback
 void feedback_callback(
-  GoalHandleFibonacci::SharedPtr,
-  const std::shared_ptr<const Fibonacci::Feedback> feedback)
+  GoalHandleRings::SharedPtr,
+  const std::shared_ptr<const Rings::Feedback> feedback) //cambiado
 {
   RCLCPP_INFO(
     g_node->get_logger(),
-    "Next number in sequence received: %" PRId32,
-    feedback->partial_sequence.back());
-}
+    "Drawing ring: %d | Angle: %f",
+    feedback->drawing_ring,
+    feedback->ring_angle);
+} //cambiado
 
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
 
-  g_node = rclcpp::Node::make_shared("action_client");
+  g_node = rclcpp::Node::make_shared("rings_action_client"); //cambiado
 
   auto action_client =
-    rclcpp_action::create_client<Fibonacci>(
+    rclcpp_action::create_client<Rings>(
       g_node,
-      "fibonacci");
+      "rings");
 
   // Esperar servidor
   if (!action_client->wait_for_action_server(20s)) {
@@ -42,12 +43,12 @@ int main(int argc, char ** argv)
   }
 
   // Crear goal
-  auto goal_msg = Fibonacci::Goal();
-  goal_msg.order = 15;
+  auto goal_msg = Rings::Goal(); //cambiado
+  goal_msg.radius = 1.0;//cambiado
 
   RCLCPP_INFO(g_node->get_logger(), "Sending goal");
 
-  rclcpp_action::Client<Fibonacci>::SendGoalOptions send_goal_options;
+  rclcpp_action::Client<Rings>::SendGoalOptions send_goal_options; //cambiado
   send_goal_options.feedback_callback = feedback_callback;
 
   auto goal_handle_future =
@@ -86,27 +87,15 @@ int main(int argc, char ** argv)
   }
 
   auto wrapped_result = result_future.get();
+  auto result = wrapped_result.result;
 
-  switch (wrapped_result.code) {
-    case rclcpp_action::ResultCode::SUCCEEDED:
-      break;
-    case rclcpp_action::ResultCode::ABORTED:
-      RCLCPP_ERROR(g_node->get_logger(), "Goal was aborted");
-      return 1;
-    case rclcpp_action::ResultCode::CANCELED:
-      RCLCPP_ERROR(g_node->get_logger(), "Goal was canceled");
-      return 1;
-    default:
-      RCLCPP_ERROR(g_node->get_logger(), "Unknown result code");
-      return 1;
-  }
+  RCLCPP_INFO(
+  g_node->get_logger(),
+  "Rings completed: %d",
+  result->rings_completed);
 
-  RCLCPP_INFO(g_node->get_logger(), "result received");
-
-  for (auto number : wrapped_result.result->sequence) {
-    RCLCPP_INFO(g_node->get_logger(), "%" PRId32, number);
-  }
-
+  
+ 
   action_client.reset();
   g_node.reset();
   rclcpp::shutdown();
