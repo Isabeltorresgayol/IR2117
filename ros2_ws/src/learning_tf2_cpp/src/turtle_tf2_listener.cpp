@@ -1,54 +1,69 @@
-#include <memory>
+#include <chrono>
 #include <string>
+#include <cmath>
 
-#include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/transform_stamped.hpp"
-#include "tf2_ros/buffer.h"
-#include "tf2_ros/transform_listener.h"
+#include "geometry_msgs/msg/twist.hpp"
+#include "rclcpp/rclcpp.hpp"
 #include "tf2/exceptions.h"
+#include "tf2_ros/transform_listener.h"
+#include "tf2_ros/buffer.h"
 
-using std::placeholders::_1;
-
-class FrameListener : public rclcpp::Node
-{
-public:
-  FrameListener()
-  : Node("turtle_tf2_listener")
-  {
-    tf_buffer_ = std::make_unique<tf2_ros::Buffer>(this->get_clock());
-    tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
-
-    timer_ = this->create_wall_timer(
-      std::chrono::seconds(1),
-      std::bind(&FrameListener::lookupTransform, this));
-  }
-
-private:
-  void lookupTransform()
-  {
-    try {
-      geometry_msgs::msg::TransformStamped t =
-        tf_buffer_->lookupTransform("world", "turtle1", tf2::TimePointZero);
-
-      RCLCPP_INFO(this->get_logger(),
-        "Turtle position: x=%.2f y=%.2f",
-        t.transform.translation.x,
-        t.transform.translation.y);
-
-    } catch (const tf2::TransformException & ex) {
-      RCLCPP_WARN(this->get_logger(), "Could not transform: %s", ex.what());
-    }
-  }
-
-  std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
-  std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
-  rclcpp::TimerBase::SharedPtr timer_;
-};
+using namespace std::chrono_literals;
 
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<FrameListener>());
+  auto node = rclcpp::Node::make_shared("turtle_tf2_frame_listener");
+
+  auto publisher = node->create_publisher<geometry_msgs::msg::Twist>(
+    "turtle2/cmd_vel", 1);
+
+  auto target_frame =
+    node->declare_parameter<std::string>("target_frame", "turtle1");
+
+  auto tf_buffer =
+    std::make_unique<tf2_ros::Buffer>(node->get_clock());
+
+  auto tf_listener =
+    std::make_shared<tf2_ros::TransformListener>(*tf_buffer);
+
+  rclcpp::WallRate loop_rate(1s);
+
+  geometry_msgs::msg::TransformStamped t;
+  geometry_msgs::msg::Twist msg;
+
+  std::string fromFrameRel = target_frame.c_str();
+  std::string toFrameRel = "turtle2";
+
+  const double scaleRotationRate = 1.0;
+  const double scaleForwardSpeed = 0.5;
+
+  while (rclcpp::ok()) {
+    try {
+      t = tf_buffer->lookupTransform(
+        toFrameRel, fromFrameRel,
+        tf2::TimePointZero);
+    } catch (const tf2::TransformException & ex) {
+      RCLCPP_INFO(
+        node->get_logger(), "Could not transform %s to %s: %s",
+        toFrameRel.c_str(), fromFrameRel.c_str(), ex.what());
+    }
+
+    msg.angular.z = scaleRotationRate * atan2(
+      t.transform.translation.y,
+      t.transform.translation.x);
+
+    msg.linear.x = scaleForwardSpeed * sqrt(
+      pow(t.transform.translation.x, 2) +
+      pow(t.transform.translation.y, 2));
+
+    publisher->publish(msg);
+
+    rclcpp::spin_some(node);
+    loop_rate.sleep();
+  }
+
   rclcpp::shutdown();
   return 0;
 }
