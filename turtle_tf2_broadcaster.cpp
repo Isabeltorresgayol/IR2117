@@ -1,12 +1,16 @@
 #include <sstream>
 #include <string>
 #include <unordered_map>
+//Añadido
+#include <chrono>
 
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "tf2/LinearMath/Quaternion.h"
 #include "tf2_ros/transform_broadcaster.h"
 #include "turtlesim/msg/pose.hpp"
+//Añadido:
+#include "turtlesim/srv/set_pen.hpp"
 
 std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster;
 
@@ -34,6 +38,7 @@ RGB getColorValues(const std::string& colorName) {
     }    
     return {0, 0, 0}; 
 }
+
 
 void handle_turtle_pose(
   const std::shared_ptr<turtlesim::msg::Pose> msg)
@@ -70,6 +75,39 @@ int main(int argc, char * argv[])
   turtlename = node->declare_parameter<std::string>(
     "turtlename",
     "turtle");
+    //Añadido
+  std::string color;
+
+  if (turtlename == "turtle1") color = "red";
+  else if (turtlename == "turtle2") color = "orange";
+  else if (turtlename == "turtle3") color = "yellow";
+  else if (turtlename == "turtle4") color = "green";
+  else if (turtlename == "turtle5") color = "blue";
+  else if (turtlename == "turtle6") color = "indigo";
+  else if (turtlename == "turtle7") color = "violet";
+
+  RGB rgb = getColorValues(color);
+
+  auto pen_client =
+    node->create_client<turtlesim::srv::SetPen>(
+      "/" + turtlename + "/set_pen");
+
+  while (!pen_client->wait_for_service(std::chrono::seconds(1))) {
+    if (!rclcpp::ok()) {
+      return 0;
+    }
+  }
+
+  auto request =
+    std::make_shared<turtlesim::srv::SetPen::Request>();
+
+  request->r = rgb.r;
+  request->g = rgb.g;
+  request->b = rgb.b;
+  request->width = 3;
+  request->off = 0;
+
+  pen_client->async_send_request(request);
 
   tf_broadcaster =
     std::make_unique<tf2_ros::TransformBroadcaster>(
